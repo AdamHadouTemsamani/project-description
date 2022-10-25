@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "XhuNZNpOuU+yUGU8a5kW/TAB3QTRvUmBOj1ya8cU0Yygm02pY2+ETJ8/40YXDkO15hejNG7zZmNUsMway8HhrA==",
+  "dgSpecHash": "X3phEllrj2iKo1ZM8qNnyzwHMIoabC2/fEMb598yQt6kblhKxjMfOyfITU9ickfEDFnjUeDo4jUl/cvRXynLkw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Adamh\\OneDrive\\Documents\\GitHub\\project-description\\GitInsight\\GitInsight.Tests\\GitInsight.Tests.csproj",
+  "projectFilePath": "c:\\Users\\Adamh\\OneDrive\\Documents\\GitHub\\project-description\\GitInsight\\GitInsight.Tests\\GitInsight.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Adamh\\.nuget\\packages\\coverlet.collector\\3.1.2\\coverlet.collector.3.1.2.nupkg.sha512",
+    "C:\\Users\\Adamh\\.nuget\\packages\\libgit2sharp\\0.26.2\\libgit2sharp.0.26.2.nupkg.sha512",
+    "C:\\Users\\Adamh\\.nuget\\packages\\libgit2sharp.nativebinaries\\2.0.306\\libgit2sharp.nativebinaries.2.0.306.nupkg.sha512",
     "C:\\Users\\Adamh\\.nuget\\packages\\microsoft.codecoverage\\17.1.0\\microsoft.codecoverage.17.1.0.nupkg.sha512",
     "C:\\Users\\Adamh\\.nuget\\packages\\microsoft.csharp\\4.0.1\\microsoft.csharp.4.0.1.nupkg.sha512",
     "C:\\Users\\Adamh\\.nuget\\packages\\microsoft.net.test.sdk\\17.1.0\\microsoft.net.test.sdk.17.1.0.nupkg.sha512",
