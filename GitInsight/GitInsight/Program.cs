@@ -6,21 +6,36 @@ public class Program
 {
     public static void Main(string[] args)
     {
+        Repository rep = new Repository(Repository.IsValid(args.FirstOrDefault("")) ? args[0] : Directory.GetParent(Environment.CurrentDirectory)!.Parent!.FullName);
+
         foreach(var arg in args)
         {
-            arg.ToLower();
             switch(arg)
             {
                 case "--frequency":
-                var rep = new Repository(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName);
-                rep.Commits.GroupBy(x => x.Author.When.ToString("yyyy-MM-dd")).ToList().ForEach(x => Console.WriteLine(x.Count() + " " + x.Key));
-                break;
+                    PrintCommitGroupedByFrequency(rep);
+                    break;
 
-                case "--author": //Don't know why but looks cool
-                Console.WriteLine("author");
-                break;
+                case "--author":
+                    PrintCommitGroupedByDateAndAuthor(rep);
+                    break;
             }
         }
+    }
+
+    private static void PrintCommitGroupedByFrequency(Repository com){
+        PrintGitCommitsGroupedByDate(com.Commits.ToList());
+    }
+
+    private static void PrintCommitGroupedByDateAndAuthor(Repository com){
+        com.Commits.GroupBy(x => x.Author.Name).ToList().ForEach(x => {
+            Console.WriteLine(x.Key);
+            PrintGitCommitsGroupedByDate(x.ToList(),true);
+        });
+    }
+
+    private static void PrintGitCommitsGroupedByDate(IList<Commit> group, bool indentation = false){
+        group.ToList().GroupBy(d => d.Author.When.ToString("yyyy-MM-dd")).ToList().ForEach(c => Console.WriteLine((indentation?"\t":"") + c.Count() + " " + c.Key));
     }
 }
 
