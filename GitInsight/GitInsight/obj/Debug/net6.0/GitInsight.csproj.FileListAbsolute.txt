@@ -29,6 +29,7 @@ C:\Users\Adamh\OneDrive\Documents\GitHub\project-description\GitInsight\GitInsig
 C:\Users\Adamh\OneDrive\Documents\GitHub\project-description\GitInsight\GitInsight\obj\Debug\net6.0\GitInsight.pdb
 C:\Users\Adamh\OneDrive\Documents\GitHub\project-description\GitInsight\GitInsight\obj\Debug\net6.0\GitInsight.genruntimeconfig.cache
 C:\Users\Adamh\OneDrive\Documents\GitHub\project-description\GitInsight\GitInsight\obj\Debug\net6.0\ref\GitInsight.dll
+<<<<<<< HEAD
 C:\Users\Bruger\Desktop\Opgaver\3_semester\analysis_design_and_software_architecture\itu_bdsa_project\project-description\GitInsight\GitInsight\bin\Debug\net6.0\GitInsight.exe
 C:\Users\Bruger\Desktop\Opgaver\3_semester\analysis_design_and_software_architecture\itu_bdsa_project\project-description\GitInsight\GitInsight\bin\Debug\net6.0\GitInsight.deps.json
 C:\Users\Bruger\Desktop\Opgaver\3_semester\analysis_design_and_software_architecture\itu_bdsa_project\project-description\GitInsight\GitInsight\bin\Debug\net6.0\GitInsight.runtimeconfig.json
@@ -60,3 +61,36 @@ C:\Users\Bruger\Desktop\Opgaver\3_semester\analysis_design_and_software_architec
 C:\Users\Bruger\Desktop\Opgaver\3_semester\analysis_design_and_software_architecture\itu_bdsa_project\project-description\GitInsight\GitInsight\obj\Debug\net6.0\GitInsight.pdb
 C:\Users\Bruger\Desktop\Opgaver\3_semester\analysis_design_and_software_architecture\itu_bdsa_project\project-description\GitInsight\GitInsight\obj\Debug\net6.0\GitInsight.genruntimeconfig.cache
 C:\Users\Bruger\Desktop\Opgaver\3_semester\analysis_design_and_software_architecture\itu_bdsa_project\project-description\GitInsight\GitInsight\obj\Debug\net6.0\ref\GitInsight.dll
+=======
+C:\Users\Jonas\Desktop\BS hideout\project-description\GitInsight\GitInsight\bin\Debug\net6.0\GitInsight.exe
+C:\Users\Jonas\Desktop\BS hideout\project-description\GitInsight\GitInsight\bin\Debug\net6.0\GitInsight.deps.json
+C:\Users\Jonas\Desktop\BS hideout\project-description\GitInsight\GitInsight\bin\Debug\net6.0\GitInsight.runtimeconfig.json
+C:\Users\Jonas\Desktop\BS hideout\project-description\GitInsight\GitInsight\bin\Debug\net6.0\GitInsight.dll
+C:\Users\Jonas\Desktop\BS hideout\project-description\GitInsight\GitInsight\bin\Debug\net6.0\GitInsight.pdb
+C:\Users\Jonas\Desktop\BS hideout\project-description\GitInsight\GitInsight\bin\Debug\net6.0\LibGit2Sharp.dll
+C:\Users\Jonas\Desktop\BS hideout\project-description\GitInsight\GitInsight\bin\Debug\net6.0\runtimes\alpine-x64\native\libgit2-106a5f2.so
+C:\Users\Jonas\Desktop\BS hideout\project-description\GitInsight\GitInsight\bin\Debug\net6.0\runtimes\alpine.3.9-x64\native\libgit2-106a5f2.so
+C:\Users\Jonas\Desktop\BS hideout\project-description\GitInsight\GitInsight\bin\Debug\net6.0\runtimes\debian-arm64\native\libgit2-106a5f2.so
+C:\Users\Jonas\Desktop\BS hideout\project-description\GitInsight\GitInsight\bin\Debug\net6.0\runtimes\debian.9-x64\native\libgit2-106a5f2.so
+C:\Users\Jonas\Desktop\BS hideout\project-description\GitInsight\GitInsight\bin\Debug\net6.0\runtimes\fedora-x64\native\libgit2-106a5f2.so
+C:\Users\Jonas\Desktop\BS hideout\project-description\GitInsight\GitInsight\bin\Debug\net6.0\runtimes\linux-x64\native\libgit2-106a5f2.so
+C:\Users\Jonas\Desktop\BS hideout\project-description\GitInsight\GitInsight\bin\Debug\net6.0\runtimes\osx\native\libgit2-106a5f2.dylib
+C:\Users\Jonas\Desktop\BS hideout\project-description\GitInsight\GitInsight\bin\Debug\net6.0\runtimes\rhel-x64\native\libgit2-106a5f2.so
+C:\Users\Jonas\Desktop\BS hideout\project-description\GitInsight\GitInsight\bin\Debug\net6.0\runtimes\ubuntu.16.04-arm64\native\libgit2-106a5f2.so
+C:\Users\Jonas\Desktop\BS hideout\project-description\GitInsight\GitInsight\bin\Debug\net6.0\runtimes\ubuntu.18.04-x64\native\libgit2-106a5f2.so
+C:\Users\Jonas\Desktop\BS hideout\project-description\GitInsight\GitInsight\bin\Debug\net6.0\runtimes\win-x64\native\git2-106a5f2.dll
+C:\Users\Jonas\Desktop\BS hideout\project-description\GitInsight\GitInsight\bin\Debug\net6.0\runtimes\win-x64\native\git2-106a5f2.pdb
+C:\Users\Jonas\Desktop\BS hideout\project-description\GitInsight\GitInsight\bin\Debug\net6.0\runtimes\win-x86\native\git2-106a5f2.dll
+C:\Users\Jonas\Desktop\BS hideout\project-description\GitInsight\GitInsight\bin\Debug\net6.0\runtimes\win-x86\native\git2-106a5f2.pdb
+C:\Users\Jonas\Desktop\BS hideout\project-description\GitInsight\GitInsight\obj\Debug\net6.0\GitInsight.csproj.AssemblyReference.cache
+C:\Users\Jonas\Desktop\BS hideout\project-description\GitInsight\GitInsight\obj\Debug\net6.0\GitInsight.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Jonas\Desktop\BS hideout\project-description\GitInsight\GitInsight\obj\Debug\net6.0\GitInsight.AssemblyInfoInputs.cache
+C:\Users\Jonas\Desktop\BS hideout\project-description\GitInsight\GitInsight\obj\Debug\net6.0\GitInsight.AssemblyInfo.cs
+C:\Users\Jonas\Desktop\BS hideout\project-description\GitInsight\GitInsight\obj\Debug\net6.0\GitInsight.csproj.CoreCompileInputs.cache
+C:\Users\Jonas\Desktop\BS hideout\project-description\GitInsight\GitInsight\obj\Debug\net6.0\GitInsight.csproj.CopyComplete
+C:\Users\Jonas\Desktop\BS hideout\project-description\GitInsight\GitInsight\obj\Debug\net6.0\GitInsight.dll
+C:\Users\Jonas\Desktop\BS hideout\project-description\GitInsight\GitInsight\obj\Debug\net6.0\refint\GitInsight.dll
+C:\Users\Jonas\Desktop\BS hideout\project-description\GitInsight\GitInsight\obj\Debug\net6.0\GitInsight.pdb
+C:\Users\Jonas\Desktop\BS hideout\project-description\GitInsight\GitInsight\obj\Debug\net6.0\GitInsight.genruntimeconfig.cache
+C:\Users\Jonas\Desktop\BS hideout\project-description\GitInsight\GitInsight\obj\Debug\net6.0\ref\GitInsight.dll
+>>>>>>> 58628cf3cd68b30cf4d97da85494a1f7c2e32ff8

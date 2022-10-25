@@ -152,11 +152,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Bruger\\Desktop\\Opgaver\\3_semester\\analysis_design_and_software_architecture\\itu_bdsa_project\\project-description\\GitInsight\\GitInsight\\GitInsight.csproj",
+      "projectUniqueName": "c:\\Users\\Bruger\\Desktop\\Opgaver\\3_semester\\analysis_design_and_software_architecture\\itu_bdsa_project\\project-description\\GitInsight\\GitInsight\\GitInsight.csproj",
       "projectName": "GitInsight",
-      "projectPath": "C:\\Users\\Bruger\\Desktop\\Opgaver\\3_semester\\analysis_design_and_software_architecture\\itu_bdsa_project\\project-description\\GitInsight\\GitInsight\\GitInsight.csproj",
+      "projectPath": "c:\\Users\\Bruger\\Desktop\\Opgaver\\3_semester\\analysis_design_and_software_architecture\\itu_bdsa_project\\project-description\\GitInsight\\GitInsight\\GitInsight.csproj",
       "packagesPath": "C:\\Users\\Bruger\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Bruger\\Desktop\\Opgaver\\3_semester\\analysis_design_and_software_architecture\\itu_bdsa_project\\project-description\\GitInsight\\GitInsight\\obj\\",
+      "outputPath": "c:\\Users\\Bruger\\Desktop\\Opgaver\\3_semester\\analysis_design_and_software_architecture\\itu_bdsa_project\\project-description\\GitInsight\\GitInsight\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -210,5 +210,13 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file c:\\Users\\Bruger\\Desktop\\Opgaver\\3_semester\\analysis_design_and_software_architecture\\itu_bdsa_project\\project-description\\GitInsight\\GitInsight\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }
