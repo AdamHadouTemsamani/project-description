@@ -9,10 +9,12 @@ public class Program
             arg.ToLower();
             switch(arg)
             {
-                case "--commit frequency":
+                case "--commit-frequency":
+                Console.WriteLine("frequency");
                 break;
 
-                case "--commit author": //Don't know why but looks cool
+                case "--commit-author": //Don't know why but looks cool
+                Console.WriteLine("author");
                 break;
             }
         }
