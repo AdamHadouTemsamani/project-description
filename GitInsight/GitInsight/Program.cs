@@ -11,21 +11,17 @@ public class Program
             arg.ToLower();
             switch(arg)
             {
-                case "--commit-frequency":
-                Console.WriteLine("frequency");
+                case "--frequency":
+                var rep = new Repository(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName);
+                rep.Commits.GroupBy(x => x.Author.When.ToString("yyyy-MM-dd")).ToList().ForEach(x => Console.WriteLine(x.Count() + " " + x.Key));
                 break;
 
-                case "--commit-author": //Don't know why but looks cool
+                case "--author": //Don't know why but looks cool
                 Console.WriteLine("author");
                 break;
             }
         }
-
-        var rep = new Repository(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName);
-        rep.Commits.ToList().ForEach(x => Console.WriteLine(x.Author.Name));
     }
-    
-
 }
 
 

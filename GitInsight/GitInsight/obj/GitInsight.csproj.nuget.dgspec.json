@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\Bruger\\Desktop\\Opgaver\\3_semester\\analysis_design_and_software_architecture\\itu_bdsa_project\\project-description\\GitInsight\\GitInsight\\GitInsight.csproj": {}
+    "C:\\Users\\Bruger\\Desktop\\Opgaver\\3_semester\\analysis_design_and_software_architecture\\itu_bdsa_project\\project-description\\GitInsight\\GitInsight\\GitInsight.csproj": {}
   },
   "projects": {
-    "c:\\Users\\Bruger\\Desktop\\Opgaver\\3_semester\\analysis_design_and_software_architecture\\itu_bdsa_project\\project-description\\GitInsight\\GitInsight\\GitInsight.csproj": {
+    "C:\\Users\\Bruger\\Desktop\\Opgaver\\3_semester\\analysis_design_and_software_architecture\\itu_bdsa_project\\project-description\\GitInsight\\GitInsight\\GitInsight.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\Bruger\\Desktop\\Opgaver\\3_semester\\analysis_design_and_software_architecture\\itu_bdsa_project\\project-description\\GitInsight\\GitInsight\\GitInsight.csproj",
+        "projectUniqueName": "C:\\Users\\Bruger\\Desktop\\Opgaver\\3_semester\\analysis_design_and_software_architecture\\itu_bdsa_project\\project-description\\GitInsight\\GitInsight\\GitInsight.csproj",
         "projectName": "GitInsight",
-        "projectPath": "c:\\Users\\Bruger\\Desktop\\Opgaver\\3_semester\\analysis_design_and_software_architecture\\itu_bdsa_project\\project-description\\GitInsight\\GitInsight\\GitInsight.csproj",
+        "projectPath": "C:\\Users\\Bruger\\Desktop\\Opgaver\\3_semester\\analysis_design_and_software_architecture\\itu_bdsa_project\\project-description\\GitInsight\\GitInsight\\GitInsight.csproj",
         "packagesPath": "C:\\Users\\Bruger\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\Bruger\\Desktop\\Opgaver\\3_semester\\analysis_design_and_software_architecture\\itu_bdsa_project\\project-description\\GitInsight\\GitInsight\\obj\\",
+        "outputPath": "C:\\Users\\Bruger\\Desktop\\Opgaver\\3_semester\\analysis_design_and_software_architecture\\itu_bdsa_project\\project-description\\GitInsight\\GitInsight\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
