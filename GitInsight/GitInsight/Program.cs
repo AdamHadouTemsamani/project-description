@@ -1,2 +1,7 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using LibGit2Sharp;
+
+Console.WriteLine("Enter path to git repository");
+var path = Console.ReadLine();
+
+Console.WriteLine("Does not exist");
+
