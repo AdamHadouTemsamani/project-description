@@ -1,4 +1,6 @@
 ﻿using LibGit2Sharp;
+using System.Linq;
+using System;
 
 public class Program 
 {
@@ -16,8 +18,9 @@ public class Program
                 break;
             }
         }
-        Console.WriteLine("Enter path to git repository");
-        var path = Console.ReadLine();
+
+        var rep = new Repository(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName);
+        rep.Commits.ToList().ForEach(x => Console.WriteLine(x.Author.Name));
     }
     
 

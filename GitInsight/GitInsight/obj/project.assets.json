@@ -146,31 +146,28 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Adamh\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\Bruger\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Adamh\\OneDrive\\Documents\\GitHub\\project-description\\GitInsight\\GitInsight\\GitInsight.csproj",
+      "projectUniqueName": "C:\\Users\\Bruger\\Desktop\\Opgaver\\3_semester\\analysis_design_and_software_architecture\\itu_bdsa_project\\project-description\\GitInsight\\GitInsight\\GitInsight.csproj",
       "projectName": "GitInsight",
-      "projectPath": "C:\\Users\\Adamh\\OneDrive\\Documents\\GitHub\\project-description\\GitInsight\\GitInsight\\GitInsight.csproj",
-      "packagesPath": "C:\\Users\\Adamh\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Adamh\\OneDrive\\Documents\\GitHub\\project-description\\GitInsight\\GitInsight\\obj\\",
+      "projectPath": "C:\\Users\\Bruger\\Desktop\\Opgaver\\3_semester\\analysis_design_and_software_architecture\\itu_bdsa_project\\project-description\\GitInsight\\GitInsight\\GitInsight.csproj",
+      "packagesPath": "C:\\Users\\Bruger\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Bruger\\Desktop\\Opgaver\\3_semester\\analysis_design_and_software_architecture\\itu_bdsa_project\\project-description\\GitInsight\\GitInsight\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Adamh\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "C:\\Users\\Bruger\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
