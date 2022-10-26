@@ -94,3 +94,7 @@ C:\Users\Jonas\Desktop\BS hideout\project-description\GitInsight\GitInsight\obj\
 C:\Users\Jonas\Desktop\BS hideout\project-description\GitInsight\GitInsight\obj\Debug\net6.0\GitInsight.genruntimeconfig.cache
 C:\Users\Jonas\Desktop\BS hideout\project-description\GitInsight\GitInsight\obj\Debug\net6.0\ref\GitInsight.dll
 >>>>>>> 58628cf3cd68b30cf4d97da85494a1f7c2e32ff8
+C:\Users\Adamh\OneDrive\Documents\GitHub\project-description\GitInsight\GitInsight\bin\Debug\net6.0\FluentAssertions.dll
+C:\Users\Adamh\OneDrive\Documents\GitHub\project-description\GitInsight\GitInsight\bin\Debug\net6.0\System.Configuration.ConfigurationManager.dll
+C:\Users\Adamh\OneDrive\Documents\GitHub\project-description\GitInsight\GitInsight\bin\Debug\net6.0\System.Security.Cryptography.ProtectedData.dll
+C:\Users\Adamh\OneDrive\Documents\GitHub\project-description\GitInsight\GitInsight\bin\Debug\net6.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
