@@ -22,7 +22,7 @@ public class RepositoryTest
     public void Check_If_Correct_Path_Is_Returned()
     {
         //Assert
-        _fullpath.Should().Be("C:\\Users\\Adamh\\OneDrive\\Documents\\GitHub\\project-description\\GitInsight\\GitInsight.Tests\\Testrepo.git");
+        _fullpath.Should().Be("C:\\Users\\Adamh\\OneDrive\\Documents\\GitHub\\project-description\\code\\GitInsight.Tests\\Testrepo.git");
     }
 
 
