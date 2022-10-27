@@ -8,7 +8,6 @@ public class RepositoryTest
 {
     private string _fullpath;
     private Repository _repository;
-   
 
     public RepositoryTest()
     {
@@ -43,16 +42,16 @@ public class RepositoryTest
         sw.ToString().Replace("\r", "").TrimEnd().Should().Be(mainOut);
     }
 
-    
+    [Fact]
     public void Commit_Grouped_By_Author_and_Date()
     {
         string filePath = Directory.GetParent(Environment.CurrentDirectory)!.Parent!.Parent!.FullName + "\\author.txt";
-        string mainOut = File.ReadAllText(filePath).Replace("\r","").Replace("\t","");
+        string mainOut = File.ReadAllText(filePath).Replace(" ","").Replace("\r\n","");
         StringWriter sw = new StringWriter();
 
         Console.SetOut(sw);
         Program.Main(new string[] {_fullpath, "--author"});
 
-        sw.ToString().Replace("\r", "").Replace("\t","").TrimEnd().Should().Be(mainOut);
+        sw.ToString().Replace("\r\n", "").Replace("\t", "").Replace(" ","").TrimEnd().Should().Be(mainOut);
     }
 }
