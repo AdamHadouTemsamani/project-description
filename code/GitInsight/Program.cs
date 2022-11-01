@@ -20,6 +20,7 @@ public static class Program
                     PrintCommitGroupedByDateAndAuthor(rep);
                     break;
             }
+          
         }
     }
 
