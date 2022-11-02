@@ -6,7 +6,23 @@ public static class Program
 {
     public static void Main(string[] args)
     {
-        Repository rep = new Repository(Repository.IsValid(args.FirstOrDefault("")) ? args[0] : Directory.GetParent(Environment.CurrentDirectory)!.Parent!.FullName);
+        var connection = new SqliteConnection("Filename=:memory:");
+        connection.Open();
+
+        var builder = new DbContextOptionsBuilder<DBContext>();
+        builder.UseSqlite(connection);
+
+        var context = new DBContext(builder.Options); 
+        context.Database.EnsureCreated();
+        /*context.AddRange(new Tag("Teddybear"){Id = 1}, 
+                         new Tag("Balloon"){Id = 2});*/
+        context.SaveChanges();
+
+        var authRepo = new AuthorRepository(context);
+        var commitRepo = new CommitRepository(context);
+        var repo = Repository.IsValid(args.FirstOrDefault("")) ? args[0] : Directory.GetParent(Environment.CurrentDirectory)!.Parent!.FullName;
+
+        
 
         foreach(var arg in args)
         {
