@@ -57,4 +57,38 @@ public class RepostitoryRepository : IRepositoryRepository
             _context.SaveChanges();
         }
     }
+
+    public void addAuthor(int repoID, AuthorDTO author)
+    {
+        if(author != null)
+        {
+            var searchRepo = _context.Repositories.Where(x => x.Id.Equals(repoID)).FirstOrDefault();
+            var auth = new DBAuthor(author.Name);
+
+            if(searchRepo != null)
+            {
+                if(!searchRepo.Authors.Contains(auth))
+                {
+                    searchRepo.Authors.Add(auth);
+                }
+            }
+        }
+    }
+
+    public void addCommit(int repoID, CommitDTO commit)
+    {
+        if(commit != null)
+        {
+            var searchRepo = _context.Repositories.Where(x => x.Id.Equals(repoID)).FirstOrDefault();
+            var com = new DBCommit(commit.Date);
+
+            if(searchRepo != null)
+            {
+                if(!searchRepo.Commits.Contains(com))
+                {
+                    searchRepo.Commits.Add(com);
+                }
+            }
+        }
+    }
 }
