@@ -8,8 +8,9 @@ public class DBRepository
     public ICollection<DBAuthor> Authors { get; set; }
     public ICollection<DBCommit> Commits { get; set; }
 
-    public DBRepository(string path, string name)
+    public DBRepository(int id, string path, string name)
     {
+        Id = id;
         Path = path;
         Name = name;
         Authors = new List<DBAuthor>();

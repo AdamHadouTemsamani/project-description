@@ -3,6 +3,7 @@ namespace Data;
 public class RepostitoryRepository : IRepositoryRepository
 {
     private readonly DBContext _context;
+    private int _id = 0;
 
     public RepostitoryRepository(DBContext context)
     {
@@ -12,14 +13,15 @@ public class RepostitoryRepository : IRepositoryRepository
     public int Create(RepositoryCreateDTO repository)
     {
         var search = _context.Repositories.Where(x => x.Name.Equals(repository.Name)).FirstOrDefault();
-        var repo = new DBRepository(repository.Path,repository.Name);
 
         if(search is null)
         {
+            var repo = new DBRepository(_id++, repository.Path,repository.Name);
             _context.Repositories.Add(repo);
             _context.SaveChanges();
+            return repo.Id;
         }
-        return repo.Id;
+        return search.Id;
     }
 
     public RepositoryDTO Find(int repositoryId)
@@ -63,7 +65,7 @@ public class RepostitoryRepository : IRepositoryRepository
         if(author != null)
         {
             var searchRepo = _context.Repositories.Where(x => x.Id.Equals(repoID)).FirstOrDefault();
-            var auth = new DBAuthor(author.Name);
+            var auth = new DBAuthor(author.Id, author.Name);
 
             if(searchRepo != null)
             {
@@ -80,7 +82,7 @@ public class RepostitoryRepository : IRepositoryRepository
         if(commit != null)
         {
             var searchRepo = _context.Repositories.Where(x => x.Id.Equals(repoID)).FirstOrDefault();
-            var com = new DBCommit(commit.Date);
+            var com = new DBCommit(commit.Id, commit.Date);
 
             if(searchRepo != null)
             {

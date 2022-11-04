@@ -33,7 +33,7 @@ public static class Program
 
     private static void DBSetup()
     {
-        _connection = new SqliteConnection("Filename=:memory:");
+        _connection = new SqliteConnection("Data Source=hello.db");
         _connection.Open();
 
         _builder = new DbContextOptionsBuilder<DBContext>();
@@ -55,7 +55,7 @@ public static class Program
         var repoRepo = new RepostitoryRepository(_context!);
         var repo = new Repository(Repository.IsValid(args.FirstOrDefault("")) ? args[0] : Directory.GetParent(Environment.CurrentDirectory)!.Parent!.FullName);
 
-        var repoID = repoRepo.Create(new RepositoryCreateDTO(repo.Info.Path, repo.Network.Remotes.First().Name));
+        var repoID = repoRepo.Create(new RepositoryCreateDTO(repo.Info.Path, Path.GetFileName(Directory.GetParent(repo.Info.Path)!.Parent!.FullName)));
         repo.Commits.ToList().ForEach(x => {
             var authID = authRepo.Create(new AuthorCreateDTO(x.Author.Name));
             var comID = commitRepo.Create(new CommitCreateDTO(x.Author.When.DateTime));

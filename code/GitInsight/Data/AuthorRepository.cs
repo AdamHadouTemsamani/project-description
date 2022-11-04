@@ -3,6 +3,7 @@ namespace Data;
 public class AuthorRepository : IAuthorRepository
 {
     private readonly DBContext _context;
+    private int _id = 0;
 
     public AuthorRepository(DBContext context)
     {
@@ -13,15 +14,16 @@ public class AuthorRepository : IAuthorRepository
     {
         /* Check if the item already exists */
         var search = _context.Authors.Where(x => x.Name.Equals(author.Name)).FirstOrDefault();
-        var auth = new DBAuthor(author.Name);
 
         /* If not add it to the database */
         if(search is null) 
         {
-            _context.Authors.Add(auth); 
+            var auth = new DBAuthor(_id++,author.Name);
+            _context.Authors.Add(auth);
             _context.SaveChanges();
+            return auth.Id;
         }
-        return auth.Id;     
+        return search.Id;
     }
 
     public AuthorDTO Find(int authorId)
@@ -64,7 +66,7 @@ public class AuthorRepository : IAuthorRepository
         var searchAuth = _context.Authors.Where(x => x.Name.Equals(authorName)).FirstOrDefault();
         if(searchAuth != null)
         {
-            searchAuth.Commits.Add(new DBCommit(commit.Date));
+            searchAuth.Commits.Add(new DBCommit(commit.Id,commit.Date));
         }
     }
 }
