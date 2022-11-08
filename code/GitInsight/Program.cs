@@ -11,7 +11,6 @@ public static class Program
 
     public static void Main(string[] args)
     {
-        builder.Services.AddHttpClient();
         DBSetup();
         DBRepoSetup(args);
 
