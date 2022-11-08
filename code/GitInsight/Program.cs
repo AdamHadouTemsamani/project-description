@@ -7,9 +7,11 @@ public static class Program
     private static SqliteConnection? _connection;
     private static DbContextOptionsBuilder<DBContext>? _builder;
     private static DBContext? _context;
+    
 
     public static void Main(string[] args)
     {
+        builder.Services.AddHttpClient();
         DBSetup();
         DBRepoSetup(args);
 
