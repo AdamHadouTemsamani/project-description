@@ -7,7 +7,8 @@ public static class Program
     private static SqliteConnection? _connection;
     private static DbContextOptionsBuilder<DBContext>? _builder;
     private static DBContext? _context;
-    
+
+    private static CommitFrequency? _frequency;
 
     public static void Main(string[] args)
     {
@@ -19,11 +20,12 @@ public static class Program
             switch(arg)
             {
                 case "--frequency":
-                    PrintCommitGroupedByFrequency();
+
+                    _frequency?.PrintCommitGroupedByFrequency(_context!);
                     break;
 
                 case "--author":
-                    PrintCommitGroupedByDateAndAuthor();
+                    _frequency?.PrintCommitGroupedByDateAndAuthor(_context!);
                     break;
             }
           
@@ -64,23 +66,5 @@ public static class Program
             repoRepo.addAuthor(comID, authRepo.Find(authID));
             repoRepo.addCommit(comID, commitRepo.Find(comID));
         });
-    }
-
-    private static void PrintCommitGroupedByFrequency()
-    {
-        PrintGitCommitsGroupedByDate(_context!.Commits.ToList());
-    }
-
-    private static void PrintCommitGroupedByDateAndAuthor()
-    {
-        _context!.Authors.ToList().ForEach(x => {
-            Console.WriteLine(x.Name);
-            PrintGitCommitsGroupedByDate(x.Commits.ToList(),true);
-        });
-    }
-
-    private static void PrintGitCommitsGroupedByDate(IList<DBCommit> group, bool indentation = false)
-    {
-        group.ToList().GroupBy(d => d.Date.ToString("yyyy-MM-dd")).ToList().ForEach(c => Console.WriteLine((indentation?"\t":"") + c.Count() + " " + c.Key));
     }
 }
