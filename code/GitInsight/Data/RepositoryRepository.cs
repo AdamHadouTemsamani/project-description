@@ -16,7 +16,7 @@ public class RepostitoryRepository : IRepositoryRepository
 
         if(search is null)
         {
-            var repo = new DBRepository(_id++, repository.Path,repository.Name);
+            var repo = new DBRepository(_id++, repository.Path, repository.Name, null!);
             _context.Repositories.Add(repo);
             _context.SaveChanges();
             return repo.Id;
@@ -77,7 +77,7 @@ public class RepostitoryRepository : IRepositoryRepository
         }
     }
 
-    public void addCommit(int repoID, CommitDTO commit)
+    public void addCommit(int repoID, CommitDTO commit, ObjectId latestCommit)
     {
         if(commit != null)
         {
@@ -89,8 +89,15 @@ public class RepostitoryRepository : IRepositoryRepository
                 if(!searchRepo.Commits.Contains(com))
                 {
                     searchRepo.Commits.Add(com);
+                    searchRepo.LatestCommit = latestCommit;
                 }
             }
         }
+    }
+
+    public ObjectId getLatestCommit(int repoId)
+    {
+        var searchRepo = _context.Repositories.Where(x => x.Id.Equals(repoId)).FirstOrDefault();
+        return searchRepo?.LatestCommit!;
     }
 }
