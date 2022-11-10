@@ -28,15 +28,21 @@ public class RepostitoryRepository : IRepositoryRepository
     {
         var repo = from c in _context.Repositories
                    where c.Id == repositoryId
-                   select new RepositoryDTO(c.Id, c.Path, c.Name);
+                   select new RepositoryDTO(c.Id, c.Path, c.Name, c.LatestCommit!);
         return repo.FirstOrDefault()!;
     }
 
     public IReadOnlyCollection<RepositoryDTO> Read()
     {
         var repositories = from c in _context.Repositories
-                           select new RepositoryDTO(c.Id, c.Path, c.Name);
+                           select new RepositoryDTO(c.Id, c.Path, c.Name,c.LatestCommit!);
         return repositories.ToList();   
+    }
+
+    public async Task<IReadOnlyCollection<RepositoryDTO>> ReadAll()
+    {
+        var repos = await _context.Repositories.Select(x => new RepositoryDTO(x.Id, x.Path, x.Name, x.LatestCommit!)).ToListAsync();
+        return repos!;
     }
 
     public void Update(RepositoryUpdateDTO repository)
