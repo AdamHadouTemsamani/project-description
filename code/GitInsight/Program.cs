@@ -12,19 +12,21 @@ public static class Program
 
     public static void Main(string[] args)
     {
+        /*
         var builder = WebApplication.CreateBuilder(args);
 
         //Add services to the container
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+        builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
         var app = builder.Build();
         
         if(app.Environment.IsDevelopment())
         {
-        app.UseSwagger();
-        app.UseSwaggerUI();
+            app.UseSwagger();
+            app.UseSwaggerUI();
         }
 
         app.UseHttpsRedirection();
@@ -32,7 +34,7 @@ public static class Program
         app.MapControllers();
 
         app.Run();
-
+        */
         DBSetup();
         DBRepoSetup(args);
 
@@ -78,7 +80,6 @@ public static class Program
         var authRepo = new AuthorRepository(_context!);
         var commitRepo = new CommitRepository(_context!);
         var repoRepo = new RepostitoryRepository(_context!);
-        Repository.Clone(args.FirstOrDefault(""), Directory.GetParent(Environment.CurrentDirectory)!.Parent!.FullName);
         var repo = new Repository(Repository.IsValid(args.FirstOrDefault("")) ? args[0] : Directory.GetParent(Environment.CurrentDirectory)!.Parent!.FullName);
         var commitHash = repo.Head.Tip.Id; 
 
