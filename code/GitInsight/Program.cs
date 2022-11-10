@@ -12,7 +12,7 @@ public static class Program
 
     public static void Main(string[] args)
     {
-        /*
+        
         var builder = WebApplication.CreateBuilder(args);
 
         //Add services to the container
@@ -34,7 +34,7 @@ public static class Program
         app.MapControllers();
 
         app.Run();
-        */
+        
         DBSetup();
         DBRepoSetup(args);
 

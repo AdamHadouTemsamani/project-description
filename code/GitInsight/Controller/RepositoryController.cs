@@ -4,24 +4,20 @@ namespace GitInsight;
 [Route("[controller]")]
 public class RepositoryController : ControllerBase
 {
-    private readonly ILogger<RepositoryController> _logger;
     private readonly RepostitoryRepository _repoRepository;
 
-    public RepositoryController(ILogger<RepositoryController> logger, RepostitoryRepository repoRepository)
+    public RepositoryController(RepostitoryRepository repoRepository)
     {
-        _logger = logger;
         _repoRepository = repoRepository;
-
     }
 
-    [HttpGet(Name = "")]
+    [HttpGet]
     public async Task<IReadOnlyCollection<RepositoryDTO>> GetAllRepositoriesAsync()
     {
-        var repo = await _repoRepository.ReadAll();
-        return repo;
+        return await _repoRepository.ReadAll();
     }
 
-    
+    /*
     [HttpGet(Name = "{username:string}/{repository:string}")]
     public void GetPullRepository(string username, string repository)
     {
@@ -29,7 +25,7 @@ public class RepositoryController : ControllerBase
         var path = Directory.GetParent(Environment.CurrentDirectory)!.Parent!.FullName!;
         string[] extract = Regex.Split(path, "bin");
         var fullpath = extract[0] + "Repositories\\";
-        Repository.Clone(url.ToString(), fullpath);
+        Repository.Clone    (url.ToString(), fullpath);
     }
-
+    */
 }
