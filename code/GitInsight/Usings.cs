@@ -7,6 +7,7 @@ global using Microsoft.Extensions.Logging;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Hosting;
 global using Swashbuckle.AspNetCore;
+global using System.IO.Compression;
 global using Microsoft.Data.Sqlite;
 global using Data;
 global using System.Net.Http.Json;
