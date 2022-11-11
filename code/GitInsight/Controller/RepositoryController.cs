@@ -3,6 +3,9 @@ namespace GitInsight;
 [ApiController]
 public class RepositoryController : ControllerBase
 {
+
+    
+
     //[HttpGet(Name = "{username}/{repository}")]
     [Route("{username}/{repository}")]
     public void GetPullRepository(string username, string repository)
@@ -18,8 +21,17 @@ public class RepositoryController : ControllerBase
         }
         Console.WriteLine(fullpath);
         Repository.Clone(url.ToString(), fullpath);
-
         
+        //Use repo
+
+
+        //Check directory exists, if it does unzip and use it
+
+
+        //When it is done using the repository it is zipped
+        var repoPath = fullpath + ".zip";
+        ZipFile.CreateFromDirectory(fullpath, repoPath);
+        DeleteDirectory.DeleteFolder(fullpath);
     }
     
 }
