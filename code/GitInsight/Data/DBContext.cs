@@ -16,8 +16,16 @@ public class DBContext : DbContext
                     .Property(i => i.Name)
                     .HasMaxLength(50);
         
+        modelBuilder.Entity<DBAuthor>()
+                    .HasIndex(i => i.Id)
+                    .IsUnique();
+        
         modelBuilder.Entity<DBCommit>()
                     .Property(i => i.Date);
+
+        modelBuilder.Entity<DBCommit>()
+                    .HasIndex(i => i.Id)
+                    .IsUnique();
 
         modelBuilder.Entity<DBRepository>()
                     .Property(i => i.Path)
@@ -26,6 +34,11 @@ public class DBContext : DbContext
         modelBuilder.Entity<DBRepository>()
                     .Property(i => i.Name)
                     .HasMaxLength(50);
+        
+        modelBuilder.Entity<DBRepository>()
+                    .HasIndex(i => i.Id)
+                    .IsUnique();
+                    
     }
 
 }

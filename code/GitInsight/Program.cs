@@ -12,7 +12,7 @@ public static class Program
 
     public static void Main(string[] args)
     {
-        
+        /*
         var builder = WebApplication.CreateBuilder(args);
 
         //Add services to the container
@@ -34,6 +34,7 @@ public static class Program
         app.MapControllers();
 
         app.Run();
+        */
         
         DBSetup();
         DBRepoSetup(args);
@@ -59,7 +60,7 @@ public static class Program
 
     private static void DBSetup()
     {
-        _connection = new SqliteConnection("Data Source=hello.db");
+        _connection = new SqliteConnection("Data Source=GitInsight.db");
         _connection.Open();
 
         _builder = new DbContextOptionsBuilder<DBContext>();
@@ -81,11 +82,7 @@ public static class Program
         var commitRepo = new CommitRepository(_context!);
         var repoRepo = new RepostitoryRepository(_context!);
         var repo = new Repository(Repository.IsValid(args.FirstOrDefault("")) ? args[0] : Directory.GetParent(Environment.CurrentDirectory)!.Parent!.FullName);
-        var commitHash = repo.Head.Tip.Id; 
-
-        var path = Directory.GetParent(Environment.CurrentDirectory)!.Parent!.FullName;
-        string[] extract = Regex.Split(path, "bin");
-        var fullpath = extract[0] + "Repositories\\";
+        var commitHash = repo.Head.Tip.Id.RawId; 
         
         var search = from c in _context?.Repositories
                      where c.LatestCommit == commitHash
@@ -94,13 +91,13 @@ public static class Program
 
         if(search is null)
         {
-            var repoID = repoRepo.Create(new RepositoryCreateDTO(repo.Info.Path, Path.GetFileName(Directory.GetParent(repo.Info.Path)!.Parent!.FullName)));
+            var repoID = repoRepo.Create(new RepositoryCreateDTO(repo.Info.Path, repo.Head.RemoteName, commitHash));
             repo.Commits.ToList().ForEach(x => {
             var authID = authRepo.Create(new AuthorCreateDTO(x.Author.Name));
             var comID = commitRepo.Create(new CommitCreateDTO(x.Author.When.DateTime));
             authRepo.addCommit(x.Author.Name, commitRepo.Find(comID));
             repoRepo.addAuthor(comID, authRepo.Find(authID));
-            repoRepo.addCommit(comID, commitRepo.Find(comID), repo.Head.Tip.Id);
+            repoRepo.addCommit(comID, commitRepo.Find(comID));
             });
         }
     }

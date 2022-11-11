@@ -83,7 +83,7 @@ public class RepostitoryRepository : IRepositoryRepository
         }
     }
 
-    public void addCommit(int repoID, CommitDTO commit, ObjectId latestCommit)
+    public void addCommit(int repoID, CommitDTO commit)
     {
         if(commit != null)
         {
@@ -95,13 +95,12 @@ public class RepostitoryRepository : IRepositoryRepository
                 if(!searchRepo.Commits.Contains(com))
                 {
                     searchRepo.Commits.Add(com);
-                    searchRepo.LatestCommit = latestCommit;
                 }
             }
         }
     }
 
-    public ObjectId getLatestCommit(int repoId)
+    public byte[] getLatestCommit(int repoId)
     {
         var searchRepo = _context.Repositories.Where(x => x.Id.Equals(repoId)).FirstOrDefault();
         return searchRepo?.LatestCommit!;
