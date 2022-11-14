@@ -24,10 +24,10 @@ public class RepostitoryRepository : IRepositoryRepository
         return search.Id;
     }
 
-    public RepositoryDTO Find(int repositoryId)
+    public RepositoryDTO Find(string repositoryName)
     {
         var repo = from c in _context.Repositories
-                   where c.Id == repositoryId
+                   where c.Name == repositoryName
                    select new RepositoryDTO(c.Id, c.Path, c.Name, c.LatestCommit!);
         return repo.FirstOrDefault()!;
     }
@@ -53,6 +53,7 @@ public class RepostitoryRepository : IRepositoryRepository
             repo.Id = repository.Id;
             repo.Path = repository.Path;
             repo.Name = repository.Name;
+            _context.SaveChanges();
         }
     }
 
@@ -66,7 +67,7 @@ public class RepostitoryRepository : IRepositoryRepository
         }
     }
 
-    public void addAuthor(int repoID, AuthorDTO author)
+    public void AddAuthor(int repoID, AuthorDTO author)
     {
         if(author != null)
         {
@@ -78,12 +79,13 @@ public class RepostitoryRepository : IRepositoryRepository
                 if(!searchRepo.Authors.Contains(auth))
                 {
                     searchRepo.Authors.Add(auth);
+                    _context.SaveChanges();
                 }
             }
         }
     }
 
-    public void addCommit(int repoID, CommitDTO commit)
+    public void AddCommit(int repoID, CommitDTO commit)
     {
         if(commit != null)
         {
@@ -95,14 +97,15 @@ public class RepostitoryRepository : IRepositoryRepository
                 if(!searchRepo.Commits.Contains(com))
                 {
                     searchRepo.Commits.Add(com);
+                    _context.SaveChanges();
                 }
             }
         }
     }
 
-    public byte[] getLatestCommit(int repoId)
+    public byte[] LatestCommit(string name)
     {
-        var searchRepo = _context.Repositories.Where(x => x.Id.Equals(repoId)).FirstOrDefault();
+        var searchRepo = _context.Repositories.Where(x => x.Name.Equals(name)).FirstOrDefault();
         return searchRepo?.LatestCommit!;
     }
 }

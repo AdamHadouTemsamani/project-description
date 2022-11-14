@@ -48,7 +48,9 @@ public class AuthorRepository : IAuthorRepository
         {
             auth.Id = author.Id;
             auth.Name = author.Name;
+            _context.SaveChanges();
         }
+        
     }
 
     public void Delete(int authorId)
@@ -61,7 +63,7 @@ public class AuthorRepository : IAuthorRepository
         }
     }
 
-    public void addCommit(string authorName, CommitDTO commit)
+    public void AddCommit(string authorName, CommitDTO commit)
     {
         var searchAuth = _context.Authors.Where(x => x.Name.Equals(authorName)).FirstOrDefault();
         if(searchAuth != null)

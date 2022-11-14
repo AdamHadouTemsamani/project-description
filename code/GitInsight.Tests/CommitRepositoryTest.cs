@@ -2,6 +2,7 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
+
 namespace GitInsight.Tests;
 public class CommitRepositoryTest : IDisposable
 {

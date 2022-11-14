@@ -2,18 +2,27 @@
 using System.Linq;
 using System;
 
+
 public static class Program 
 {
-    private static SqliteConnection? _connection;
-    private static DbContextOptionsBuilder<DBContext>? _builder;
-    private static DBContext? _context;
-
-    private static CommitFrequency? _frequency;
-
     public static void Main(string[] args)
     {
-        
+        CreateHostBuilder(args).Build().Run();
+    }
+
+    private static IHostBuilder CreateHostBuilder(string[] args)
+    {
+        return Host.CreateDefaultBuilder(args)
+            .ConfigureWebHostDefaults( webBuilder => webBuilder.UseStartup<Startup>());
+    }
+
+       /*
         var builder = WebApplication.CreateBuilder(args);
+
+        builder.Services.AddDbContext<DBContext>(o => o.UseSqlite("Data Source=GitInsight.db"));
+        builder.Services.AddTransient<IRepositoryRepository, RepostitoryRepository>();
+        builder.Services.AddTransient<IAuthorRepository, AuthorRepository>();
+        builder.Services.AddTransient<ICommitRepository, CommitRepository>();
 
         //Add services to the container
         builder.Services.AddControllers();
@@ -23,15 +32,7 @@ public static class Program
 
         var app = builder.Build();
         
-        if(app.Environment.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI();
-        }
-
-        app.UseHttpsRedirection();
-        app.UseAuthorization();
-        app.MapControllers();
+        
 
         app.Run();
         
@@ -60,20 +61,14 @@ public static class Program
 
     private static void DBSetup()
     {
-        _connection = new SqliteConnection("Data Source=GitInsight.db");
-        _connection.Open();
-
+        
         _builder = new DbContextOptionsBuilder<DBContext>();
-        _builder.UseSqlite(_connection);
+        _builder.UseSqlite("Data Source=GitInsight.db");
 
         _context = new DBContext(_builder.Options);
-        _context.Database.EnsureCreated();
+        _context.Database.Migrate();
     }
 
-    private static void DBClose()
-    {
-        _connection!.Close();
-    }
     
 
     private static void DBRepoSetup(string[] args)
@@ -87,9 +82,8 @@ public static class Program
         var search = from c in _context?.Repositories
                      where c.LatestCommit == commitHash
                      select c.LatestCommit;
-        search.First();
-
-        if(search is null)
+        
+        if(search.FirstOrDefault() is null)
         {
             var repoID = repoRepo.Create(new RepositoryCreateDTO(repo.Info.Path, repo.Head.RemoteName, commitHash));
             repo.Commits.ToList().ForEach(x => {
@@ -101,4 +95,5 @@ public static class Program
             });
         }
     }
+    */
 }

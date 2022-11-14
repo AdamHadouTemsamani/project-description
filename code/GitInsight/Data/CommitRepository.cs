@@ -48,7 +48,9 @@ public class CommitRepository : ICommitRepository
         {
             com.Id = commit.Id;
             com.Date = commit.Date;
+            _context.SaveChanges();
         }
+        
     }
 
     public void Delete(int commitId)
