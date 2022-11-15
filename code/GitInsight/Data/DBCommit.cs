@@ -6,9 +6,8 @@ public class DBCommit
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
     public DateTime Date { get; set; }
+    public DBAuthor Author { get; set; } = null!;
+    public DBRepository BelongsTo { get; set; } = null!;
 
-    public DBCommit(DateTime date)
-    {
-        Date = date;
-    }
+    
 }

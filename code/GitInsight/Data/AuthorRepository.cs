@@ -17,7 +17,7 @@ public class AuthorRepository : IAuthorRepository
         /* If not add it to the database */
         if(search is null) 
         {
-            var auth = new DBAuthor(author.Name);
+            var auth = new DBAuthor { Name = author.Name};
             _context.Authors.Add(auth);
             _context.SaveChanges();
             return auth.Id;
@@ -67,7 +67,8 @@ public class AuthorRepository : IAuthorRepository
         var searchAuth = _context.Authors.Where(x => x.Name.Equals(authorName)).FirstOrDefault();
         if(searchAuth != null)
         {
-            searchAuth.Commits.Add(new DBCommit(commit.Date));
+            searchAuth.Commits.Add(new DBCommit 
+            { Date = commit.Date,  Author = commit.Author, BelongsTo = commit.BelongsTo });
         }
     }
 }

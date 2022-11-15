@@ -15,9 +15,10 @@ public class RepostitoryRepository : IRepositoryRepository
 
         if(search is null)
         {
-            var repo = new DBRepository(repository.Path, repository.Name, repository.LatestCommit);
+            var repo = new DBRepository 
+            { Path = repository.Path, Name = repository.Name, LatestCommit = repository.LatestCommit };
             _context.Repositories.Add(repo);
-            _context.SaveChanges();
+            _context.SaveChanges(); 
             return repo.Id;
         }
         return search.Id;
@@ -36,12 +37,6 @@ public class RepostitoryRepository : IRepositoryRepository
         var repositories = from c in _context.Repositories
                            select new RepositoryDTO(c.Id, c.Path, c.Name,c.LatestCommit!);
         return repositories.ToList();   
-    }
-
-    public async Task<IReadOnlyCollection<RepositoryDTO>> ReadAll()
-    {
-        var repos = await _context.Repositories.Select(x => new RepositoryDTO(x.Id, x.Path, x.Name, x.LatestCommit!)).ToListAsync();
-        return repos!;
     }
 
     public void Update(RepositoryUpdateDTO repository)
@@ -66,30 +61,14 @@ public class RepostitoryRepository : IRepositoryRepository
         }
     }
 
-    public void AddAuthor(int repoID, AuthorDTO author)
-    {
-        if(author != null)
-        {
-            var searchRepo = _context.Repositories.Where(x => x.Id.Equals(repoID)).FirstOrDefault();
-            var auth = new DBAuthor(author.Name);
-
-            if(searchRepo != null)
-            {
-                if(!searchRepo.Authors.Contains(auth))
-                {
-                    searchRepo.Authors.Add(auth);
-                    _context.SaveChanges();
-                }
-            }
-        }
-    }
-
+    
     public void AddCommit(int repoID, CommitDTO commit)
     {
         if(commit != null)
         {
             var searchRepo = _context.Repositories.Where(x => x.Id.Equals(repoID)).FirstOrDefault();
-            var com = new DBCommit(commit.Date);
+            var com = new DBCommit
+                { Date = commit.Date, Author = commit.Author, BelongsTo = commit.BelongsTo };
 
             if(searchRepo != null)
             {

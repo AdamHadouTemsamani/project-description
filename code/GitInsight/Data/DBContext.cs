@@ -26,6 +26,14 @@ public class DBContext : DbContext
         modelBuilder.Entity<DBRepository>()
                     .Property(i => i.Name)
                     .HasMaxLength(50);
+
+        modelBuilder.Entity<DBCommit>()
+                    .HasOne(i => i.Author).WithMany(i => i.Commits);
+
+        modelBuilder.Entity<DBRepository>()
+                    .HasMany(i => i.Commits).WithOne(i => i.BelongsTo);
+
+                    
                     
     }
 

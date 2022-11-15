@@ -18,46 +18,36 @@ public class RepositoryController : ControllerBase
         _commits = commits;
     }
     
-
-    
     [HttpGet]
     public RepositoryDTO PullRepository(string username, string repository)
     {
-        Uri url = new Uri("https://github.com/" + username + "/" + repository);
-        Console.WriteLine(url);
-        var path = Directory.GetParent(Environment.CurrentDirectory)!.Parent!.FullName!;
-        string[] extract = Regex.Split(path, "bin");
-        var fullpath = extract[0] + @"\code\GitInsight\Repositories\" + repository;
-        if(!Directory.Exists(fullpath))
-        {
-            System.IO.Directory.CreateDirectory(fullpath);
-        }
-        Console.WriteLine(fullpath);
-        Repository.Clone(url.ToString(), fullpath);
+        var path = GitInsight.GetDirectory(repository);
+        var repo = GitInsight.CreateRepository(username, repository);
+
+        int latestCommit = _repositories.LatestCommit(repo.Head.RemoteName);
+        Console.WriteLine(repo.Head.RemoteName);
         
-        var repo = new Repository(fullpath);
-        var latestCommit = _repositories.LatestCommit(repo.Head.RemoteName);
+        var repoID = _repositories.Create(new RepositoryCreateDTO(repo.Info.Path, repo.Head.RemoteName, repo.Head.Tip.GetHashCode()));
+        foreach(Commit c in repo.Commits)
+        {   
 
+            var authID = _authors.Create(new AuthorCreateDTO(c.Author.Name));
+            var comID = _commits.Create(new CommitCreateDTO(c.Author.When.DateTime, 
+                            new DBAuthor { Name = c.Author.Name }, 
+                            new DBRepository { Path = repo.Info.Path, Name = repo.Head.RemoteName, LatestCommit = repo.Head.Tip.GetHashCode()}));
 
-        if(latestCommit != repo.Head.Tip.GetHashCode())
-        {
-            var repoID = _repositories.Create(new RepositoryCreateDTO(repo.Info.Path, repo.Head.RemoteName, repo.Head.Tip.GetHashCode()));
-            repo.Commits.ToList().ForEach(x => {
-            var authID = _authors.Create(new AuthorCreateDTO(x.Author.Name));
-            var comID = _commits.Create(new CommitCreateDTO(x.Author.When.DateTime));
-            _authors.AddCommit(x.Author.Name, _commits.Find(comID));
-            _repositories.AddAuthor(comID, _authors.Find(authID));
+            _authors.AddCommit(c.Author.Name, _commits.Find(comID));
             _repositories.AddCommit(comID, _commits.Find(comID));
-            });
         }
+        
         //Check directory exists, if it does unzip and use it
-        var repoPath = fullpath + ".zip";
+        var repoPath = path + ".zip";
          //Use repository and run database
 
         //When it is done using the repository it is zipped
         
-        ZipFile.CreateFromDirectory(fullpath, repoPath);
-        DeleteDirectory.DeleteFolder(fullpath);
+        ZipFile.CreateFromDirectory(path, repoPath);
+        DeleteDirectory.DeleteFolder(path);
 
         return _repositories.Find(repo.Head.RemoteName);
     }

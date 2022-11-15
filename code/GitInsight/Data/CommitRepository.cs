@@ -17,7 +17,7 @@ public class CommitRepository : ICommitRepository
         /* If not add it to the database */
         if(search is null) 
         {
-            var com = new DBCommit(commit.Date);
+            var com = new DBCommit { Date = commit.Date, Author = commit.Author,  BelongsTo = commit.BelongsTo };
             _context.Commits.Add(com); 
             _context.SaveChanges();
             return com.Id;
@@ -29,14 +29,14 @@ public class CommitRepository : ICommitRepository
     {
         var com = from c in _context.Commits
                    where c.Id == commitId
-                   select new CommitDTO(c.Id, c.Date);
+                   select new CommitDTO(c.Id, c.Date, c.Author, c.BelongsTo);
         return com.FirstOrDefault()!;
     }
 
     public IReadOnlyCollection<CommitDTO> Read()
     {
         var commits = from c in _context.Commits
-                      select new CommitDTO(c.Id, c.Date);
+                      select new CommitDTO(c.Id, c.Date, c.Author, c.BelongsTo);
         return commits.ToList();
     }
 
@@ -47,10 +47,13 @@ public class CommitRepository : ICommitRepository
         {
             com.Id = commit.Id;
             com.Date = commit.Date;
+            com.Author = commit.Author;
+            com.BelongsTo = commit.BelongsTo;
             _context.SaveChanges();
         }
         
     }
+
 
     public void Delete(int commitId)
     {
