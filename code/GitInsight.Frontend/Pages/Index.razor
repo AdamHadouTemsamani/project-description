@@ -1,0 +1,18 @@
+﻿@page "/"
+
+<PageTitle>GitInsight</PageTitle>
+
+<label for="GitURLInput" > <h1>Enter Git URL</h1> </label>
+<br/>
+<input type="text" @bind="@_urlInput" @oninput="@(intext => { _urlInput = (string) intext.Value!;})" placeholder="{user}/{repository}" id="GitURLInput" >
+<button>Search</button>
+<br/>
+<br/>
+<b>Current Input: </b> <p> @_urlInput </p>
+
+@code {
+    /* TODO: Figure out how to implement GitInsight inside GitInsight.Frontend.
+       TODO: Make "Search" button create a new repository. 
+     */
+    private string _urlInput = "";
+}
