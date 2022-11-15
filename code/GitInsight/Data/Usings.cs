@@ -1,2 +1,2 @@
 global using LibGit2Sharp;
-global using Microsoft.EntityFrameworkCore.Infrastructure;
+global using System.ComponentModel.DataAnnotations.Schema;

@@ -3,7 +3,6 @@ namespace Data;
 public class CommitRepository : ICommitRepository
 {
     private readonly DBContext _context;
-    private int _id = 0;
 
     public CommitRepository(DBContext context)
     {
@@ -18,7 +17,7 @@ public class CommitRepository : ICommitRepository
         /* If not add it to the database */
         if(search is null) 
         {
-            var com = new DBCommit(_id++,commit.Date);
+            var com = new DBCommit(commit.Date);
             _context.Commits.Add(com); 
             _context.SaveChanges();
             return com.Id;

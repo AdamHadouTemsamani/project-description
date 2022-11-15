@@ -2,16 +2,17 @@ namespace Data;
 
 public class DBRepository
 {
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; set; }
     public string Path { get; set;}
     public string Name { get; set; }
-    public byte[] LatestCommit { get; set; }
+    public int LatestCommit { get; set; }
     public ICollection<DBAuthor> Authors { get; set; }
     public ICollection<DBCommit> Commits { get; set; }
 
-    public DBRepository(int id, string path, string name, byte[] latestCommit)
+    public DBRepository(string path, string name, int latestCommit)
     {
-        Id = id;
         Path = path;
         Name = name;
         LatestCommit = latestCommit;

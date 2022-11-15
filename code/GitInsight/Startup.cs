@@ -3,10 +3,21 @@ using Microsoft.AspNetCore.Hosting;
 namespace GitInsight;
 
 public class Startup 
-{
+{  
+    private readonly IConfiguration _configuration;
+    private readonly IWebHostEnvironment _environment;
+
+    public Startup(IConfiguration configuration, IWebHostEnvironment environment)
+    {
+        _configuration = configuration;
+        _environment = environment;
+    } 
+
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddDbContext<DBContext>(o => o.UseSqlite("Data Source=GitInsight.db"));
+        services.AddDbContext<DBContext>(options => 
+                        options.UseSqlite("Data Source=GitInsight.db"));
+
         services.AddTransient<IRepositoryRepository, RepostitoryRepository>();
         services.AddTransient<IAuthorRepository, AuthorRepository>();
         services.AddTransient<ICommitRepository, CommitRepository>();
@@ -35,6 +46,7 @@ public class Startup
         using var scope = app.ApplicationServices.CreateScope();
 
         var context = scope.ServiceProvider.GetRequiredService<DBContext>();
+        
         context.Database.Migrate();
 
     }

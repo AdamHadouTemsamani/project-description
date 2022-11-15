@@ -10,5 +10,5 @@ public interface IRepositoryRepository
     void Delete(int repositoryId);
     void AddAuthor(int authorID, AuthorDTO author);
     void AddCommit(int commitID, CommitDTO commit);
-    byte[] LatestCommit(string Name);
+    int LatestCommit(string Name);
 }

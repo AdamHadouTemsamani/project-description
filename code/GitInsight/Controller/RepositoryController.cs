@@ -36,14 +36,12 @@ public class RepositoryController : ControllerBase
         Repository.Clone(url.ToString(), fullpath);
         
         var repo = new Repository(fullpath);
-        var commitHash = repo.Head.Tip.Id.RawId; 
-
         var latestCommit = _repositories.LatestCommit(repo.Head.RemoteName);
 
 
-        if(latestCommit != commitHash)
+        if(latestCommit != repo.Head.Tip.GetHashCode())
         {
-            var repoID = _repositories.Create(new RepositoryCreateDTO(repo.Info.Path, repo.Head.RemoteName, commitHash));
+            var repoID = _repositories.Create(new RepositoryCreateDTO(repo.Info.Path, repo.Head.RemoteName, repo.Head.Tip.GetHashCode()));
             repo.Commits.ToList().ForEach(x => {
             var authID = _authors.Create(new AuthorCreateDTO(x.Author.Name));
             var comID = _commits.Create(new CommitCreateDTO(x.Author.When.DateTime));
@@ -61,7 +59,7 @@ public class RepositoryController : ControllerBase
         ZipFile.CreateFromDirectory(fullpath, repoPath);
         DeleteDirectory.DeleteFolder(fullpath);
 
-        return _repositories.Find(repo.Head.RemoteName  );
+        return _repositories.Find(repo.Head.RemoteName);
     }
     
 }

@@ -3,7 +3,6 @@ namespace Data;
 public class AuthorRepository : IAuthorRepository
 {
     private readonly DBContext _context;
-    private int _id = 0;
 
     public AuthorRepository(DBContext context)
     {
@@ -18,7 +17,7 @@ public class AuthorRepository : IAuthorRepository
         /* If not add it to the database */
         if(search is null) 
         {
-            var auth = new DBAuthor(_id++,author.Name);
+            var auth = new DBAuthor(author.Name);
             _context.Authors.Add(auth);
             _context.SaveChanges();
             return auth.Id;
@@ -68,7 +67,7 @@ public class AuthorRepository : IAuthorRepository
         var searchAuth = _context.Authors.Where(x => x.Name.Equals(authorName)).FirstOrDefault();
         if(searchAuth != null)
         {
-            searchAuth.Commits.Add(new DBCommit(commit.Id,commit.Date));
+            searchAuth.Commits.Add(new DBCommit(commit.Date));
         }
     }
 }

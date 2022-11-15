@@ -6,6 +6,7 @@ global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.Extensions.Logging;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Hosting;
+global using Microsoft.Extensions.Configuration;
 global using Swashbuckle.AspNetCore;
 global using System.IO.Compression;
 global using Microsoft.AspNetCore.Hosting;
