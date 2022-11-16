@@ -23,9 +23,6 @@ public class RepositoryController : ControllerBase
     {
         var path = GitInsight.GetDirectory(repository);
         var repo = GitInsight.CreateRepository(username, repository);
-
-        int latestCommit = _repositories.LatestCommit(repo.Head.RemoteName);
-        Console.WriteLine(repo.Head.RemoteName);
         
         var repoID = _repositories.Create(new RepositoryCreateDTO(repo.Info.Path, repo.Head.RemoteName, repo.Head.Tip.GetHashCode()));
         foreach(Commit c in repo.Commits)

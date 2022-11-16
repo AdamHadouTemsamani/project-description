@@ -23,16 +23,11 @@ namespace GitInsight.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("DBRepositoryId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Name")
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DBRepositoryId");
 
                     b.ToTable("Authors");
                 });
@@ -43,10 +38,10 @@ namespace GitInsight.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("DBAuthorId")
+                    b.Property<int>("AuthorId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("DBRepositoryId")
+                    b.Property<int>("BelongsToId")
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Date")
@@ -54,9 +49,9 @@ namespace GitInsight.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DBAuthorId");
+                    b.HasIndex("AuthorId");
 
-                    b.HasIndex("DBRepositoryId");
+                    b.HasIndex("BelongsToId");
 
                     b.ToTable("Commits");
                 });
@@ -71,12 +66,10 @@ namespace GitInsight.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Path")
-                        .IsRequired()
                         .HasMaxLength(120)
                         .HasColumnType("TEXT");
 
@@ -85,22 +78,23 @@ namespace GitInsight.Migrations
                     b.ToTable("Repositories");
                 });
 
-            modelBuilder.Entity("Data.DBAuthor", b =>
-                {
-                    b.HasOne("Data.DBRepository", null)
-                        .WithMany("Authors")
-                        .HasForeignKey("DBRepositoryId");
-                });
-
             modelBuilder.Entity("Data.DBCommit", b =>
                 {
-                    b.HasOne("Data.DBAuthor", null)
+                    b.HasOne("Data.DBAuthor", "Author")
                         .WithMany("Commits")
-                        .HasForeignKey("DBAuthorId");
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("Data.DBRepository", null)
+                    b.HasOne("Data.DBRepository", "BelongsTo")
                         .WithMany("Commits")
-                        .HasForeignKey("DBRepositoryId");
+                        .HasForeignKey("BelongsToId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("BelongsTo");
                 });
 
             modelBuilder.Entity("Data.DBAuthor", b =>
@@ -110,8 +104,6 @@ namespace GitInsight.Migrations
 
             modelBuilder.Entity("Data.DBRepository", b =>
                 {
-                    b.Navigation("Authors");
-
                     b.Navigation("Commits");
                 });
 #pragma warning restore 612, 618
