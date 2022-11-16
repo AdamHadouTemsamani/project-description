@@ -29,9 +29,6 @@ namespace GitInsight.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name")
-                        .IsUnique();
-
                     b.ToTable("Authors");
                 });
 
@@ -80,9 +77,6 @@ namespace GitInsight.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("LatestCommit")
-                        .IsUnique();
 
                     b.ToTable("Repositories");
                 });

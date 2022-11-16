@@ -36,15 +36,7 @@ public class RepositoryController : ControllerBase
             _authors.AddCommit(authorId, new CommitCreateDTO(c.GetHashCode(), c.Author.When.Date, new DBAuthor { Name = c.Author.Name }, new DBRepository { Path = repo.Info.Path, Name = repo.Head.RemoteName, LatestCommit = repo.Head.Tip.GetHashCode() }));
             _repositories.AddCommit(commitId, new CommitCreateDTO(c.GetHashCode(), c.Author.When.Date, new DBAuthor { Name = c.Author.Name }, new DBRepository { Path = repo.Info.Path, Name = repo.Head.RemoteName, LatestCommit = repo.Head.Tip.GetHashCode()}));
         }
-        
-        //Check directory exists, if it does unzip and use it
-        var repoPath = path + ".zip";
-         //Use repository and run database
-
-        //When it is done using the repository it is zipped
-        
-        ZipFile.CreateFromDirectory(path, repoPath);
-        DeleteDirectory.DeleteFolder(path);
+        ZipFile.CreateFromDirectory(path, path + ".zip");
 
         return _repositories.Find(repositoryId);
     }

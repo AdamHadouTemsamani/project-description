@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GitInsight.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20221116165620_InitialCreate")]
+    [Migration("20221116210509_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -31,9 +31,6 @@ namespace GitInsight.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique();
 
                     b.ToTable("Authors");
                 });
@@ -83,9 +80,6 @@ namespace GitInsight.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("LatestCommit")
-                        .IsUnique();
 
                     b.ToTable("Repositories");
                 });

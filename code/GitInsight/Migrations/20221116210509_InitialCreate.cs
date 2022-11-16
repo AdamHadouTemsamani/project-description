@@ -68,12 +68,6 @@ namespace GitInsight.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Authors_Name",
-                table: "Authors",
-                column: "Name",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Commits_AuthorId",
                 table: "Commits",
                 column: "AuthorId");
@@ -82,12 +76,6 @@ namespace GitInsight.Migrations
                 name: "IX_Commits_BelongsToId",
                 table: "Commits",
                 column: "BelongsToId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Repositories_LatestCommit",
-                table: "Repositories",
-                column: "LatestCommit",
-                unique: true);
         }
 
         /// <inheritdoc />

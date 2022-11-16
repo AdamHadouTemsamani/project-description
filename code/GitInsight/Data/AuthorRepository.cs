@@ -65,7 +65,7 @@ public class AuthorRepository : IAuthorRepository
     public void AddCommit(int authorId, CommitCreateDTO commit)
     {
         var searchAuth = _context.Authors.Where(x => x.Id.Equals(authorId)).FirstOrDefault();
-        if(searchAuth != null)
+        if(searchAuth == null)
         {
             _context.Commits.Add(new DBCommit 
             { HashCode = commit.HashCode, Date = commit.Date, Author = commit.Author, BelongsTo = commit.BelongsTo });
