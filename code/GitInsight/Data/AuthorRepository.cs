@@ -12,12 +12,12 @@ public class AuthorRepository : IAuthorRepository
     public int Create(AuthorCreateDTO author)
     {
         /* Check if the item already exists */
-        var search = _context.Authors.Where(x => x.Name.Equals(author.Name)).FirstOrDefault();
+        var search = _context.Authors.Where(x => x.Name!.Equals(author.Name)).FirstOrDefault();
 
         /* If not add it to the database */
         if(search is null) 
         {
-            var auth = new DBAuthor { Name = author.Name};
+            var auth = new DBAuthor { Name = author.Name };
             _context.Authors.Add(auth);
             _context.SaveChanges();
             return auth.Id;
@@ -62,13 +62,14 @@ public class AuthorRepository : IAuthorRepository
         }
     }
 
-    public void AddCommit(string authorName, CommitCreateDTO commit)
+    public void AddCommit(int authorId, CommitCreateDTO commit)
     {
-        var searchAuth = _context.Authors.Where(x => x.Name.Equals(authorName)).FirstOrDefault();
+        var searchAuth = _context.Authors.Where(x => x.Id.Equals(authorId)).FirstOrDefault();
         if(searchAuth != null)
         {
-            searchAuth.Commits.Add(new DBCommit 
-            { Date = commit.Date,  Author = commit.Author, BelongsTo = commit.BelongsTo });
+            _context.Commits.Add(new DBCommit 
+            { HashCode = commit.HashCode, Date = commit.Date, Author = commit.Author, BelongsTo = commit.BelongsTo });
+            _context.SaveChanges();
         }
     }
 }

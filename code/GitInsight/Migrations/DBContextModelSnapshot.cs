@@ -29,6 +29,9 @@ namespace GitInsight.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("Authors");
                 });
 
@@ -46,6 +49,9 @@ namespace GitInsight.Migrations
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("HashCode")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -74,6 +80,9 @@ namespace GitInsight.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LatestCommit")
+                        .IsUnique();
 
                     b.ToTable("Repositories");
                 });

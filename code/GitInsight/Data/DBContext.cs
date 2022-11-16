@@ -15,7 +15,7 @@ public class DBContext : DbContext
         modelBuilder.Entity<DBAuthor>()
                     .Property(i => i.Name)
                     .HasMaxLength(50);
-        
+                        
         modelBuilder.Entity<DBCommit>()
                     .Property(i => i.Date);
 

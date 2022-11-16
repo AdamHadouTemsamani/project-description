@@ -1,4 +1,6 @@
 namespace Data;
+
+[Index(nameof(Name), IsUnique = true)]
 public class DBAuthor
 {
     [Key]

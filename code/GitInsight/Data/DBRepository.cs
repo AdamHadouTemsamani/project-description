@@ -1,5 +1,6 @@
 namespace Data;
 
+[Index(nameof(LatestCommit), IsUnique = true)]
 public class DBRepository
 {
     [Key]

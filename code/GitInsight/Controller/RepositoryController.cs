@@ -24,17 +24,17 @@ public class RepositoryController : ControllerBase
         var path = GitInsight.GetDirectory(repository);
         var repo = GitInsight.CreateRepository(username, repository);
         
-        var repoID = _repositories.Create(new RepositoryCreateDTO(repo.Info.Path, repo.Head.RemoteName, repo.Head.Tip.GetHashCode()));
+        var repositoryId = _repositories.Create(new RepositoryCreateDTO(repo.Info.Path, repo.Head.RemoteName, repo.Head.Tip.GetHashCode()));
         foreach(Commit c in repo.Commits)
         {   
-
-            var authID = _authors.Create(new AuthorCreateDTO(c.Author.Name));
-            var comID = _commits.Create(new CommitCreateDTO(c.Author.When.DateTime, 
+            var authorId = _authors.Create(new AuthorCreateDTO(c.Author.Name));
+            var commitId = _commits.Create(new CommitCreateDTO(c.GetHashCode(),
+                            c.Author.When.DateTime, 
                             new DBAuthor { Name = c.Author.Name }, 
                             new DBRepository { Path = repo.Info.Path, Name = repo.Head.RemoteName, LatestCommit = repo.Head.Tip.GetHashCode()}));
 
-            _authors.AddCommit(c.Author.Name, new CommitCreateDTO(c.Author.When.Date, new DBAuthor { Name = c.Author.Name }, new DBRepository { Path = repo.Info.Path, Name = repo.Head.RemoteName, LatestCommit = repo.Head.Tip.GetHashCode() }));
-            _repositories.AddCommit(comID, new CommitCreateDTO(c.Author.When.Date, new DBAuthor { Name = c.Author.Name }, new DBRepository { Path = repo.Info.Path, Name = repo.Head.RemoteName, LatestCommit = repo.Head.Tip.GetHashCode()}));
+            _authors.AddCommit(authorId, new CommitCreateDTO(c.GetHashCode(), c.Author.When.Date, new DBAuthor { Name = c.Author.Name }, new DBRepository { Path = repo.Info.Path, Name = repo.Head.RemoteName, LatestCommit = repo.Head.Tip.GetHashCode() }));
+            _repositories.AddCommit(commitId, new CommitCreateDTO(c.GetHashCode(), c.Author.When.Date, new DBAuthor { Name = c.Author.Name }, new DBRepository { Path = repo.Info.Path, Name = repo.Head.RemoteName, LatestCommit = repo.Head.Tip.GetHashCode()}));
         }
         
         //Check directory exists, if it does unzip and use it
@@ -46,7 +46,7 @@ public class RepositoryController : ControllerBase
         ZipFile.CreateFromDirectory(path, repoPath);
         DeleteDirectory.DeleteFolder(path);
 
-        return _repositories.Find(repo.Head.RemoteName);
+        return _repositories.Find(repositoryId);
     }
     
 }
