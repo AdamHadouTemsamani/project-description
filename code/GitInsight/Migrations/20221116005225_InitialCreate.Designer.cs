@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GitInsight.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20221115160208_InitialCreate")]
+    [Migration("20221116005225_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

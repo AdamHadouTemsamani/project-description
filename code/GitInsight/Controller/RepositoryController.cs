@@ -33,8 +33,8 @@ public class RepositoryController : ControllerBase
                             new DBAuthor { Name = c.Author.Name }, 
                             new DBRepository { Path = repo.Info.Path, Name = repo.Head.RemoteName, LatestCommit = repo.Head.Tip.GetHashCode()}));
 
-            _authors.AddCommit(c.Author.Name, _commits.Find(comID));
-            _repositories.AddCommit(comID, _commits.Find(comID));
+            _authors.AddCommit(c.Author.Name, new CommitCreateDTO(c.Author.When.Date, new DBAuthor { Name = c.Author.Name }, new DBRepository { Path = repo.Info.Path, Name = repo.Head.RemoteName, LatestCommit = repo.Head.Tip.GetHashCode() }));
+            _repositories.AddCommit(comID, new CommitCreateDTO(c.Author.When.Date, new DBAuthor { Name = c.Author.Name }, new DBRepository { Path = repo.Info.Path, Name = repo.Head.RemoteName, LatestCommit = repo.Head.Tip.GetHashCode()}));
         }
         
         //Check directory exists, if it does unzip and use it

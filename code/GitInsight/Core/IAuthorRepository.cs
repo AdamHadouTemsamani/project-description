@@ -6,6 +6,6 @@ public interface IAuthorRepository
     IReadOnlyCollection<AuthorDTO> Read();
     int Create(AuthorCreateDTO author);
     void Update(AuthorUpdateDTO author);
-    void AddCommit(string authorName, CommitDTO commit);
+    void AddCommit(string authorName, CommitCreateDTO commit);
     void Delete(int authorId);
 }

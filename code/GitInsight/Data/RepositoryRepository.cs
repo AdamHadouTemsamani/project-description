@@ -62,7 +62,7 @@ public class RepostitoryRepository : IRepositoryRepository
     }
 
     
-    public void AddCommit(int repoID, CommitDTO commit)
+    public void AddCommit(int repoID, CommitCreateDTO commit)
     {
         if(commit != null)
         {

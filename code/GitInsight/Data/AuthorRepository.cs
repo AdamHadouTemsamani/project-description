@@ -62,7 +62,7 @@ public class AuthorRepository : IAuthorRepository
         }
     }
 
-    public void AddCommit(string authorName, CommitDTO commit)
+    public void AddCommit(string authorName, CommitCreateDTO commit)
     {
         var searchAuth = _context.Authors.Where(x => x.Name.Equals(authorName)).FirstOrDefault();
         if(searchAuth != null)

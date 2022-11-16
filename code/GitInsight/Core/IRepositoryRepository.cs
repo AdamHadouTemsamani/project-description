@@ -7,6 +7,6 @@ public interface IRepositoryRepository
     int Create(RepositoryCreateDTO repository);
     void Update(RepositoryUpdateDTO repository);
     void Delete(int repositoryId);
-    void AddCommit(int repoID, CommitDTO commit);
+    void AddCommit(int repoID, CommitCreateDTO commit);
     int LatestCommit(string Name);
 }
