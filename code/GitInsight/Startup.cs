@@ -19,8 +19,8 @@ public class Startup
                         options.UseSqlite("Data Source=GitInsight.db"));
 
         services.AddTransient<IRepositoryRepository, RepostitoryRepository>();
-        services.AddTransient<IAuthorRepository, AuthorRepository>();
         services.AddTransient<ICommitRepository, CommitRepository>();
+        services.AddTransient<IGitInsight, GitInsight>();
 
         //Add services to the container
         services.AddControllers();
@@ -45,9 +45,8 @@ public class Startup
 
         using var scope = app.ApplicationServices.CreateScope();
 
-        var context = scope.ServiceProvider.GetRequiredService<DBContext>();
-        
-        context.Database.Migrate();
+        //var context = scope.ServiceProvider.GetRequiredService<DBContext>();
+        //context.Database.Migrate();
 
     }
 }

@@ -9,81 +9,84 @@ public class RepostitoryRepository : IRepositoryRepository
         _context = context;
     }
 
-    public int Create(RepositoryCreateDTO repository)
+    public (Response response, string repositoryId) Create(RepositoryCreateDTO repository)
     {
-        var search = _context.Repositories.Where(x => x.LatestCommit.Equals(repository.LatestCommit)).FirstOrDefault();
-
+        var search = _context.Repositories.Where(x => x.Id.Equals(repository.Id)).FirstOrDefault();
+        Response response;
         if(search is null)
         {
             var repo = new DBRepository 
-            { Path = repository.Path, Name = repository.Name, LatestCommit = repository.LatestCommit };
+            { 
+                Id = repository.Id, 
+                Path = repository.Path, 
+                Name = repository.Name, 
+                LatestCommit = repository.LatestCommit 
+            };
             _context.Repositories.Add(repo);
             _context.SaveChanges(); 
-            return repo.Id;
+            response = Response.Created;
+            return (response, repo.Id);
         }
-        return search.Id;
+
+        response = Response.Conflict;
+        return (response, search.Id);
     }
 
-    public RepositoryDTO Find(int repositoryId)
+    public RepositoryDTO Find(string repositoryId)
     {
         var repo = from c in _context.Repositories
                    where c.Id == repositoryId
-                   select new RepositoryDTO(c.Id, c.Path!, c.Name!, c.LatestCommit!);
+                   select new RepositoryDTO(c.Id, c.Path, c.Name, c.LatestCommit);
         return repo.FirstOrDefault()!;
     }
 
     public IReadOnlyCollection<RepositoryDTO> Read()
     {
         var repositories = from c in _context.Repositories
-                           select new RepositoryDTO(c.Id, c.Path!, c.Name!,c.LatestCommit!);
+                           select new RepositoryDTO(c.Id, c.Path, c.Name, c.LatestCommit!);
         return repositories.ToList();   
     }
 
-    public void Update(RepositoryUpdateDTO repository)
+    public Response Update(RepositoryUpdateDTO repository)
     {
-        var repo = _context.Repositories.Find(repository.Id);
-        if(repo is not null)
+        var search = _context.Repositories.Where(x => x.Id.Equals(repository.Id)).FirstOrDefault();
+        if(search is not null)
         {
-            repo.Id = repository.Id;
-            repo.Path = repository.Path;
-            repo.Name = repository.Name;
+            search.Path = repository.Path;
+            search.Name = repository.Name;
+            search.LatestCommit = repository.LatestCommit;
+            _context.SaveChanges();
+            return Response.Updated;
+        } 
+        else if(_context.Repositories.Where(x => !x.Id.Equals(repository.Id)) != null)
+        {
+            return Response.Conflict;
+        }
+        return Response.NotFound;
+    }
+
+    public void Delete(string repositoryId)
+    {
+        var search = _context.Repositories.Find(repositoryId);
+
+        if(search is not null)
+        { 
+            _context.Repositories.Remove(search);
             _context.SaveChanges();
         }
     }
 
-    public void Delete(int repositoryId)
+
+    public bool LatestCommit(RepositoryUpdateDTO repository)
     {
-        var repo = _context.Repositories.Find(repositoryId);
-        if(repo is not null)
+        var search = _context.Repositories.Where(x => x.Id.Equals(repository.Id)).FirstOrDefault();
+        if(search is not null)
         {
-            _context.Repositories.Remove(repo);
-            _context.SaveChanges();
-        }
-    }
-
-    
-    public void AddCommit(int repositoryId, CommitCreateDTO commit)
-    {
-        if(commit != null)
-        {
-            var searchRepo = _context.Repositories.Where(x => x.Id.Equals(repositoryId) ).FirstOrDefault();
-            var com = new DBCommit
-                { Date = commit.Date, Author = commit.Author, BelongsTo = commit.BelongsTo };
-
-            var searchCommit = _context.Commits.Where(x => x.HashCode.Equals(commit.HashCode)).FirstOrDefault();
-
-            if(searchRepo == null || searchCommit == null)
+            if(search.LatestCommit == repository.LatestCommit)
             {
-                _context.Commits.Add(com);
-                _context.SaveChanges();
-                
+                return true;
             }
         }
-    }
-
-    public int LatestCommit(int repositoryId)
-    {
-        var searchRepo = _context.Repositories.Where(x => x.Id.Equals(repositoryId)).FirstOrDefault();
-        return searchRepo!.LatestCommit;
+        return false;
     }
 }
