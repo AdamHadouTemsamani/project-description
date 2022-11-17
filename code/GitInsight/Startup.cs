@@ -46,8 +46,8 @@ public class Startup
 
         using var scope = app.ApplicationServices.CreateScope();
 
-        //var context = scope.ServiceProvider.GetRequiredService<DBContext>();
-        //context.Database.Migrate();
+        var context = scope.ServiceProvider.GetRequiredService<DBContext>();
+        context.Database.Migrate();
 
     }
 }

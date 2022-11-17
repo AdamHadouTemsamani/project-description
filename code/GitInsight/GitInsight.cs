@@ -4,10 +4,18 @@ public class GitInsight : IGitInsight
 {
     private readonly IRepositoryRepository _repository;
     private readonly ICommitRepository _commit;
-    private readonly DBContext _context;
+    //private readonly DBContext _context;
 
+    public GitInsight(IRepositoryRepository repository, ICommitRepository commit)
+    {
+        _repository = repository;
+        _commit = commit;
+    }
+
+    /*
     public GitInsight()
     {
+    
         var connection = new SqliteConnection("DataSource=GitInsight.db");
         connection.Open();
 
@@ -19,6 +27,7 @@ public class GitInsight : IGitInsight
         _context = context;
         _commit = new CommitRepository(_context);
         _repository = new RepostitoryRepository(_context);
+    
     }
 
     public GitInsight(bool isMemoryDatabase)
@@ -36,6 +45,7 @@ public class GitInsight : IGitInsight
         _repository = new RepostitoryRepository(_context);
         _commit = new CommitRepository(_context);
     }
+    */
 
     public void AddRepository(Repository repository)
     {
