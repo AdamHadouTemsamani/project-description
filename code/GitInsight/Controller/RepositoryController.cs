@@ -2,7 +2,7 @@ namespace GitInsight;
 
 
 [ApiController]
-public class RepositoryController : ControllerBase
+public class RepositoryController : Controller
 {
     private readonly IGitInsight _gitInsight;    
     public RepositoryController(IGitInsight gitInsight)
@@ -18,6 +18,7 @@ public class RepositoryController : ControllerBase
         var repo = CloneRepository.CreateRepository(username, repository);
         
         _gitInsight.AddRepository(repo);
+        Console.WriteLine(Repository.IsValid(path));
         return _gitInsight.GetCommitsPerDay(repo);
     }
     

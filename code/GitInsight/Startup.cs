@@ -35,10 +35,11 @@ public class Startup
         {
             app.UseSwagger();
             app.UseSwaggerUI();
+            app.UseDeveloperExceptionPage();
         }
 
         app.UseHttpsRedirection();
-        app.UseAuthorization();
+        app.UseStaticFiles();
         app.UseRouting();
         
         app.UseEndpoints(b => b.MapControllerRoute("default", "{username}/{repository}"));

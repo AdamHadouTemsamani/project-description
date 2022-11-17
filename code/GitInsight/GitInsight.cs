@@ -2,9 +2,9 @@ namespace GitInsight;
 
 public class GitInsight : IGitInsight
 {
-    private readonly IRepositoryRepository? _repository;
-    private readonly ICommitRepository? _commit;
-    private readonly DBContext? _context;
+    private readonly IRepositoryRepository _repository;
+    private readonly ICommitRepository _commit;
+    private readonly DBContext _context;
 
     public GitInsight()
     {
@@ -21,7 +21,7 @@ public class GitInsight : IGitInsight
         _repository = new RepostitoryRepository(_context);
     }
 
-    public GitInsight(bool isMemoryDate)
+    public GitInsight(bool isMemoryDatabase)
     {
         var connection = new SqliteConnection("DataSource=:memory:");
         connection.Open();
