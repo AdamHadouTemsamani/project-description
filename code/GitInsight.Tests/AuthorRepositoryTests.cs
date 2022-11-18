@@ -4,10 +4,12 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
 namespace GitInsight.Tests;
+/* 
 
 public class AuthorRepositoryTests : IDisposable
 {
-    private readonly DBContext _context;
+
+   private readonly DBContext _context;
     private readonly AuthorRepository _repository;
 
     public AuthorRepositoryTests()
@@ -88,3 +90,4 @@ public class AuthorRepositoryTests : IDisposable
     }
     
 }
+*/

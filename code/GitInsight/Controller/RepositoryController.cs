@@ -24,13 +24,13 @@ public class RepositoryController : Controller
 
     [HttpGet]
     [Route("{username}/{repository}/forks")]
-    public IEnumerable<object> GetAllForks(string username, string repository)
+    public IEnumerable<GitFork> GetAllForks(string username, string repository)
     {
         HttpClient client = new HttpClient();
         client.BaseAddress = new Uri("https://api.github.com");
-        IEnumerable<object> list;
-        list = new List<object>();
-        return list;
+        IEnumerable<GitFork> list;
+        list = new List<GitFork>();
+        return list;    
     }
     
 }
