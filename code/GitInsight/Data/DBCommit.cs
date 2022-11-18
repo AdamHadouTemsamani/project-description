@@ -2,12 +2,8 @@ namespace Data;
 
 public class DBCommit
 {
-    public int Id { get; set; }
+    public string RepositoryId { get; set; }  = null!;
+    public string Id { get; set; } = null!;
+    public string Author { get; set; } = null!;
     public DateTime Date { get; set; }
-
-    public DBCommit(int id, DateTime date)
-    {
-        Id = id;
-        Date = date;
-    }
 }

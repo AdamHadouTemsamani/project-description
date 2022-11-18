@@ -1,7 +1,7 @@
 namespace Core;
 
-public record RepositoryDTO(int Id, string Path, string Name);
+public record RepositoryDTO(string Id, string Path, string Name, int LatestCommit);
 
-public record RepositoryCreateDTO([StringLength(120)]string Path,[StringLength(50)]string Name);
+public record RepositoryCreateDTO(string Id, string Path, string Name, int LatestCommit);
 
-public record RepositoryUpdateDTO(int Id, [StringLength(120)]string Path,[StringLength(50)]string Name);
+public record RepositoryUpdateDTO(string Id, string Path, string Name, int LatestCommit);

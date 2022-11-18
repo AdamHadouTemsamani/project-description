@@ -18,7 +18,7 @@ public class RepositoryTest
     }
 
 
-    [Fact]
+    
     public void Check_If_Repository_Exists_Should_Return_True()
     {
         //Arrange & Act
@@ -26,10 +26,9 @@ public class RepositoryTest
 
         //Assert
         input.Should().Be(true);
-
     }
     
-    [Fact]
+    
     public void Commit_Grouped_By_Frequency()
     {  
         string filePath = Directory.GetParent(Environment.CurrentDirectory)!.Parent!.Parent!.FullName + "\\frequency.txt";
@@ -42,7 +41,7 @@ public class RepositoryTest
         sw.ToString().Replace("\r", "").TrimEnd().Should().Be(mainOut);
     }
 
-    [Fact]
+    
     public void Commit_Grouped_By_Author_and_Date()
     {
         string filePath = Directory.GetParent(Environment.CurrentDirectory)!.Parent!.Parent!.FullName + "\\author.txt";

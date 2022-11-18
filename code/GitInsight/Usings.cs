@@ -1,5 +1,15 @@
 global using Microsoft.EntityFrameworkCore;
 global using Core;
+global using Microsoft.AspNetCore.Builder;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Hosting;
+global using Microsoft.Extensions.Configuration;
+global using Swashbuckle.AspNetCore;
+global using System.IO.Compression;
+global using Microsoft.AspNetCore.Hosting;
 global using Microsoft.Data.Sqlite;
 global using Data;
 global using System.Net.Http.Json;
+global using GitInsight;
+global using System.Text.RegularExpressions;
