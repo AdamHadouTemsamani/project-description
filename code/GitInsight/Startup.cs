@@ -43,7 +43,7 @@ public class Startup
         app.UseRouting();
         
         app.UseEndpoints(b => b.MapControllerRoute("default", "{username}/{repository}"));
-
+        
         using var scope = app.ApplicationServices.CreateScope();
 
         var context = scope.ServiceProvider.GetRequiredService<DBContext>();

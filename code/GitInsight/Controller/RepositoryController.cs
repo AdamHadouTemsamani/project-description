@@ -5,9 +5,11 @@ namespace GitInsight;
 public class RepositoryController : Controller
 {
     private readonly IGitInsight _gitInsight;    
-    public RepositoryController(IGitInsight gitInsight)
+    private readonly IConfiguration _config;
+    public RepositoryController(IGitInsight gitInsight, IConfiguration config)
     {
         _gitInsight = gitInsight;
+        _config = config;
     }
     
     [HttpGet]
@@ -24,13 +26,26 @@ public class RepositoryController : Controller
 
     [HttpGet]
     [Route("{username}/{repository}/forks")]
-    public IEnumerable<GitFork> GetAllForks(string username, string repository)
+    public GitFork GetAllForks(string username, string repository)
     {
         HttpClient client = new HttpClient();
         client.BaseAddress = new Uri("https://api.github.com");
-        IEnumerable<GitFork> list;
-        list = new List<GitFork>();
-        return list;    
+
+        string accesstoken;
+        using (StreamReader r = new StreamReader("./Controller/token.json"))
+        {
+            string json = r.ReadToEnd();
+            var deserialized = (JObject)JsonConvert.DeserializeObject(json);
+            accesstoken = deserialized["access-token"].Value<string>();
+            
+        } 
+
+        using (StreamReader r = new StreamReader("./Controller/forks.json"))
+        {
+            string json = r.ReadToEnd();
+            var forks = JsonConvert.DeserializeObject<GitFork>(json);
+            return forks;
+        }
     }
     
 }
