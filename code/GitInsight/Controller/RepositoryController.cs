@@ -21,5 +21,16 @@ public class RepositoryController : Controller
         Console.WriteLine(Repository.IsValid(path));
         return _gitInsight.GetCommitsPerDay(repo);
     }
+
+    [HttpGet]
+    [Route("{username}/{repository}/forks")]
+    public IEnumerable<object> GetAllForks(string username, string repository)
+    {
+        HttpClient client = new HttpClient();
+        client.BaseAddress = new Uri("https://api.github.com");
+        IEnumerable<object> list;
+        list = new List<object>();
+        return list;
+    }
     
 }
