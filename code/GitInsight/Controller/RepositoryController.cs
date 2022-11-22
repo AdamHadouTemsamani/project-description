@@ -32,7 +32,9 @@ public class RepositoryController : Controller
     {
         HttpClient client = new HttpClient();
         client.BaseAddress = new Uri("https://api.github.com");
+        IDictionary<int, List<GitFork>> gitForks;
 
+        /*
         string accesstoken;
         using (StreamReader r = new StreamReader("./Controller/token.json"))
         {
@@ -41,24 +43,20 @@ public class RepositoryController : Controller
             accesstoken = deserialized["access-token"].Value<string>();
             
         } 
+        */
 
         using (StreamReader r = new StreamReader("./Controller/forks.json"))
         {
             string json = r.ReadToEnd();
-            JObject forks = JObject.Parse(json);
-            foreach(var f in forks)
+            Console.WriteLine(json);
+            var forks = JArray.Parse(json);
+            for(int i = 0; i < forks.Count; i++)
             {
-                /*
-                
-                var forkId = f["id"];
-                var ownerId = f["owner"]["id"];
-                var ownerLogin = f["owner"]["id"];
+                var forkId = (JObject)forks[i]["id"]!;
+                var loginId = (JObject)forks[i]["owner"]!["login"]!;
 
-
-                yield return new GitFork { forkId = forkId, owner = new GitFork.Owner { Login = ownerLogin, Id = ownerId} };
-                */
+                yield return new GitFork { forkId = forkId.ToObject<int>(), owner = new GitFork.Owner { Login = loginId.ToObject<string>()! } };
             }
-            yield return new GitFork { };
         } 
     }
     
