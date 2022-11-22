@@ -1,3 +1,5 @@
+using Newtonsoft.Json;
+
 namespace GitInsight;
 
 
@@ -26,7 +28,7 @@ public class RepositoryController : Controller
 
     [HttpGet]
     [Route("{username}/{repository}/forks")]
-    public GitFork GetAllForks(string username, string repository)
+    public IEnumerable<GitFork> GetAllForks(string username, string repository)
     {
         HttpClient client = new HttpClient();
         client.BaseAddress = new Uri("https://api.github.com");
@@ -43,9 +45,21 @@ public class RepositoryController : Controller
         using (StreamReader r = new StreamReader("./Controller/forks.json"))
         {
             string json = r.ReadToEnd();
-            var forks = JsonConvert.DeserializeObject<GitFork>(json);
-            return forks;
-        }
+            JObject forks = JObject.Parse(json);
+            foreach(var f in forks)
+            {
+                /*
+                
+                var forkId = f["id"];
+                var ownerId = f["owner"]["id"];
+                var ownerLogin = f["owner"]["id"];
+
+
+                yield return new GitFork { forkId = forkId, owner = new GitFork.Owner { Login = ownerLogin, Id = ownerId} };
+                */
+            }
+            yield return new GitFork { };
+        } 
     }
     
 }
