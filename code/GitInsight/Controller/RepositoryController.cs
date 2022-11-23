@@ -16,14 +16,14 @@ public class RepositoryController : Controller
     
     [HttpGet]
     [Route("{username}/{repository}")]
-    public IEnumerable<(int commitFrequency, DateTime commitDate)> PullRepository(string username, string repository)
+    public async Task<IEnumerable<(int commitFrequency, DateTime commitDate)>> PullRepository(string username, string repository)
     {
         var path = CloneRepository.GetDirectory(repository);
         var repo = CloneRepository.CreateRepository(username, repository);
         
-        _gitInsight.AddRepository(repo);
+        await _gitInsight.AddRepository(repo);
         Console.WriteLine(Repository.IsValid(path));
-        return _gitInsight.GetCommitsPerDay(repo);
+        return await _gitInsight.GetCommitsPerDay(repo);
     }
 
     [HttpGet]
