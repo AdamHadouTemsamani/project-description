@@ -2,11 +2,11 @@ namespace Core;
 
 public interface ICommitRepository
 {
-    (Response response, string commitId) Create(CommitCreateDTO commit);
-    CommitDTO Find(string commitId);
-    IReadOnlyCollection<CommitDTO> GetAllCommits();
-    IEnumerable<(int commitCount, DateTime commitDate)> GetCommitsPerDay(string repositoryId);
-    IReadOnlyDictionary<string, IEnumerable<(int CommitFrequency, DateTime commitDate)>> GetCommitsPerAuthor(string repositoryId);
-    Response Update(CommitUpdateDTO author);
-    void Delete(string commitId);
+    Task<(Response response, string commitId)> CreateAsync(CommitCreateDTO commit);
+    Task<(CommitDTO, Response)> FindAsync(string commitId);
+    Task<IReadOnlyCollection<CommitDTO>> GetAllCommitsAsync();
+    Task<IEnumerable<(int commitCount, DateTime commitDate)>> GetCommitsPerDayAsync(string repositoryId);
+    Task<IReadOnlyDictionary<string, IEnumerable<(int CommitFrequency, DateTime commitDate)>>> GetCommitsPerAuthorAsync(string repositoryId);
+    Task<Response> UpdateAsync(CommitUpdateDTO author);
+    Task<Response> DeleteAsync(string commitId);
 }

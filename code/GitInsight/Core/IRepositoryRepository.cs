@@ -2,10 +2,10 @@ namespace Core;
 
 public interface IRepositoryRepository
 {
-    RepositoryDTO Find(string repositoryId);
-    IReadOnlyCollection<RepositoryDTO> Read();
-    (Response response, string repositoryId) Create(RepositoryCreateDTO repository);
-    Response Update(RepositoryUpdateDTO repository);
-    void Delete(string repositoryId);
-    bool LatestCommit(RepositoryUpdateDTO repository);
+    Task<(RepositoryDTO, Response)> FindAsync(string repositoryId);
+    Task<IReadOnlyCollection<RepositoryDTO>> ReadAsync();
+    Task<(Response response, string repositoryId)> CreateAsync(RepositoryCreateDTO repository);
+    Task<Response> UpdateAsync(RepositoryUpdateDTO repository);
+    Task<Response> DeleteAsync(string repositoryId);
+    Task<bool> LatestCommit(RepositoryUpdateDTO repository);
 }

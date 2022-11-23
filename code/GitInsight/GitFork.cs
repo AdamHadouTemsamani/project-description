@@ -2,7 +2,8 @@ namespace GitInsight;
 
 public class GitFork
 {
-    /*Use user secrets + netwtonsoft.json to dynamically deserialize your json */
+    /* Seem's like we don't eed this class anyway. But in case we need to extract information from JSON */
+    
         public int forkId { get; set; }
         public Owner owner { get; set; } = null!;
     public class Owner 

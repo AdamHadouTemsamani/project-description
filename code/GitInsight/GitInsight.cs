@@ -4,12 +4,12 @@ public class GitInsight : IGitInsight
 {
     private readonly IRepositoryRepository _repository;
     private readonly ICommitRepository _commit;
-    //private readonly DBContext _context;
 
-    public GitInsight(IRepositoryRepository repository, ICommitRepository commit)
+    public GitInsight(DBContext context)
     {
-        _repository = repository;
-        _commit = commit;
+        var ctx = context;  
+        _repository = new RepostitoryRepository(ctx);
+        _commit = new CommitRepository(ctx);
     }
 
     /*
@@ -47,43 +47,47 @@ public class GitInsight : IGitInsight
     }
     */
 
-    public void AddRepository(Repository repository)
+    public async Task AddRepository(Repository repository)
     {
         var repositoryId = repository.Commits.ToList()[0].Sha;
         var LatestCommit = repository.Head.Tip.GetHashCode();
 
-        if(_repository!.LatestCommit(new RepositoryUpdateDTO(repositoryId, repository.Info.Path, repository.Head.RemoteName, LatestCommit)))
+        if(await _repository.LatestCommit(new RepositoryUpdateDTO(repositoryId, repository.Info.Path, repository.Head.RemoteName, LatestCommit)))
         {
-            var repo = _repository.Create(new RepositoryCreateDTO(repositoryId, repository.Info.Path, repository.Head.RemoteName, LatestCommit));
+            Console.WriteLine("Repository already exists in database");
+        }
+        else 
+        {
+            var repo = await _repository.CreateAsync(new RepositoryCreateDTO(repositoryId, repository.Info.Path, repository.Head.RemoteName, LatestCommit));
             if(repo.response == Response.Conflict)
             {
-                _repository.Update(new RepositoryUpdateDTO(repositoryId, repository.Info.Path, repository.Head.RemoteName, LatestCommit));
+                await _repository.UpdateAsync(new RepositoryUpdateDTO(repositoryId, repository.Info.Path, repository.Head.RemoteName, LatestCommit));
             }
-            AddCommits(repository);
+            await AddCommits(repository);
         }
     }
     
-    public void AddCommits(Repository repository)
+    public async Task AddCommits(Repository repository)
     {
         var repositoryId = repository.Commits.ToList()[0].Sha;
         var commits = repository.Commits;
 
         foreach(var commit in commits)
         {
-            _commit!.Create(new CommitCreateDTO(repositoryId, commit.Sha, commit.Author.Name, commit.Author.When.DateTime));
+            await _commit!.CreateAsync(new CommitCreateDTO(repositoryId, commit.Sha, commit.Author.Name, commit.Author.When.DateTime));
         }
     }
 
-    public IEnumerable<(int commitFrequency, DateTime commitDate)> GetCommitsPerDay(Repository repository)
+    public async Task<IEnumerable<(int commitFrequency, DateTime commitDate)>> GetCommitsPerDay(Repository repository)
     {
         var repositoryId = repository.Commits.ToList()[0].Sha;
-        return _commit.GetCommitsPerDay(repositoryId);
+        return await _commit.GetCommitsPerDayAsync(repositoryId);
     }
 
-    public IReadOnlyDictionary<string, IEnumerable<(int commitFrequency, DateTime Commitdate)>> GetCommitsPerAuthor(Repository repository)
+    public async Task<IReadOnlyDictionary<string, IEnumerable<(int commitFrequency, DateTime Commitdate)>>> GetCommitsPerAuthor(Repository repository)
     {
         var repositoryId = repository.Commits.ToList()[0].Sha;
-        return _commit.GetCommitsPerAuthor(repositoryId);
+        return await _commit.GetCommitsPerAuthorAsync(repositoryId);
     }
 
 }
