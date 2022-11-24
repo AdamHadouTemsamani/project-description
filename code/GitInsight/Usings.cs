@@ -7,6 +7,7 @@ global using Microsoft.Extensions.Hosting;
 global using Microsoft.Extensions.Configuration;
 global using Swashbuckle.AspNetCore;
 global using System.IO.Compression;
+global using Microsoft.Extensions.Configuration.UserSecrets;
 global using Microsoft.AspNetCore.Hosting;
 global using Microsoft.Data.Sqlite;
 global using Data;

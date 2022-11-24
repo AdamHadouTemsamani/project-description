@@ -3,62 +3,100 @@ namespace Data;
 public class CommitRepository : ICommitRepository
 {
     private readonly DBContext _context;
-
     public CommitRepository(DBContext context)
     {
         _context = context;
     }
 
-    public int Create(CommitCreateDTO commit)
+    public async Task<(Response response, string commitId)> CreateAsync(CommitCreateDTO commit)
     {
-        /* Check if the item already exists */
-        var search = _context.Commits.Where(x => x.Date.Equals(commit.Date)).FirstOrDefault();
-
-        /* If not add it to the database */
+        var search = await _context.Commits.Where(x => x.RepositoryId.Equals(commit.repositoryId) && x.Id.Equals(commit.Id)).FirstOrDefaultAsync();
         if(search is null) 
         {
-            var com = new DBCommit(commit.Date);
+            var com = new DBCommit 
+            { 
+                RepositoryId = commit.repositoryId, 
+                Id = commit.Id,
+                Author = commit.Author,
+                Date = commit.Date
+            };
             _context.Commits.Add(com); 
             _context.SaveChanges();
-            return com.Id;
+            return (Response.Created, com.Id);
         }
-        return search.Id;
+        return (Response.Conflict, search.Id);
     }
 
-    public CommitDTO Find(int commitId)
+    public async Task<(CommitDTO, Response)> FindAsync(string commitId)
     {
-        var com = from c in _context.Commits
-                   where c.Id == commitId
-                   select new CommitDTO(c.Id, c.Date);
-        return com.FirstOrDefault()!;
+        var search = await _context.Commits.Where(x => x.Id.Equals(commitId)).FirstOrDefaultAsync();
+        
+        if(search is null)
+        {
+            return (null, Response.NotFound)!;
+        } 
+        var com = new CommitDTO(search.RepositoryId, search.Id, search.Author, search.Date);
+        return (com, Response.Updated);
     }
 
-    public IReadOnlyCollection<CommitDTO> Read()
+    public async Task<IReadOnlyCollection<CommitDTO>> ReadAsync()
     {
         var commits = from c in _context.Commits
-                      select new CommitDTO(c.Id, c.Date);
-        return commits.ToList();
+                      select new CommitDTO(c.RepositoryId, c.Id, c.Author, c.Date);
+        return await commits.ToListAsync();
     }
 
-    public void Update(CommitUpdateDTO commit)
+    public async Task<Response> UpdateAsync(CommitUpdateDTO commit)
     {
-        var com = _context.Commits.Find(commit.Id);
-        if(com is not null)
+       var search = await _context.Commits.Where(x => x.RepositoryId.Equals(commit.repositoryId) && x.Id.Equals(commit.Id)).FirstOrDefaultAsync();
+        if(search is not null)
         {
-            com.Id = commit.Id;
-            com.Date = commit.Date;
+            search.Author = commit.Author;
+            search.Date = commit.Date;
             _context.SaveChanges();
+            return Response.Updated;
+        } 
+        else if(_context.Commits.Where(x => !x.RepositoryId.Equals(commit.repositoryId) && !x.Id.Equals(commit.Id)) != null)
+        {
+            return Response.Conflict;
         }
-        
+        return Response.NotFound;
     }
 
-    public void Delete(int commitId)
+    public async Task<Response> DeleteAsync(string commitId)
     {
-        var com = _context.Commits.Find(commitId);
-        if(com is not null)
+        var search = await _context.Commits.Where(x => x.Id.Equals(commitId)).FirstOrDefaultAsync();
+        if(search is not null)
         {
-            _context.Commits.Remove(com);
+            _context.Commits.Remove(search);
             _context.SaveChanges();
+            return Response.Deleted;
         }
+        return Response.NotFound;
+    }
+
+    public async Task<IReadOnlyCollection<CommitDTO>> GetAllCommitsAsync()
+    {
+        return await _context.Commits.Select(x => new CommitDTO(x.RepositoryId, x.Id, x.Author, x.Date)).ToListAsync();
+    }
+
+    public async Task<List<(int commitCount, DateTime commitDate)>> GetCommitsPerDayAsync(string repositoryId)
+    {
+        var commitList = await _context.Commits.ToListAsync();
+        return commitList.GroupBy(x => x.Date.Date).Select(g => (g.Count(), g.Key)).ToList();
+    }
+
+    public async Task<IReadOnlyDictionary<string, List<(int CommitFrequency, DateTime commitDate)>>> GetCommitsPerAuthorAsync(string repositoryId)
+    {
+        var commits = await _context.Commits.ToListAsync();
+        var authors = commits.Select(x => x.Author).Distinct();
+        var dictionary = new Dictionary<string, List<(int CommitFrequency, DateTime commitDate)>>();
+
+        foreach(var author in authors)
+        {
+            var commit = commits.Where(x => x.Author == author).GroupBy(d => d.Date.Date).Select(g => (g.Count(), g.Key)).ToList();
+            dictionary.Add(author, commit);
+        }
+        return dictionary;
     }
 }

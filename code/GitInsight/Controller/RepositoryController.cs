@@ -1,65 +1,59 @@
+using Newtonsoft.Json;
+
 namespace GitInsight;
 
-[Route("{username}/{repository}")]
+
 [ApiController]
-public class RepositoryController : ControllerBase
+public class RepositoryController : Controller
 {
-
-    private readonly IRepositoryRepository _repositories;
-    private readonly IAuthorRepository _authors;
-    private readonly ICommitRepository _commits;
-
-
-    
-    public RepositoryController(IRepositoryRepository repositories, IAuthorRepository authors, ICommitRepository commits)
+    private readonly IGitInsight _gitInsight;    
+    private readonly IConfiguration _config;
+    public RepositoryController(IGitInsight gitInsight, IConfiguration config)
     {
-        _repositories = repositories;
-        _authors = authors;
-        _commits = commits;
+        _gitInsight = gitInsight;
+        _config = config;
     }
     
-
-    
     [HttpGet]
-    public RepositoryDTO PullRepository(string username, string repository)
+    [Route("{username}/{repository}")]
+    public async Task<IActionResult> PullRepository(string username, string repository)
     {
-        Uri url = new Uri("https://github.com/" + username + "/" + repository);
-        Console.WriteLine(url);
-        var path = Directory.GetParent(Environment.CurrentDirectory)!.Parent!.FullName!;
-        string[] extract = Regex.Split(path, "bin");
-        var fullpath = extract[0] + @"\code\GitInsight\Repositories\" + repository;
-        if(!Directory.Exists(fullpath))
-        {
-            System.IO.Directory.CreateDirectory(fullpath);
-        }
-        Console.WriteLine(fullpath);
-        Repository.Clone(url.ToString(), fullpath);
+        var path = CloneRepository.GetDirectory(repository);
+        var repo = CloneRepository.CreateRepository(username, repository);
         
-        var repo = new Repository(fullpath);
-        var latestCommit = _repositories.LatestCommit(repo.Head.RemoteName);
+        await _gitInsight.AddRepository(repo);
+        Console.WriteLine(Repository.IsValid(path));
+        var repoanalysis = await _gitInsight.GetCommitsPerAuthorAsync(repo);
+        var bruh = repoanalysis.First();
+        return Json( new{bruh});
+        //return Json(new{ repoanalysis});
+    }
 
+    [HttpGet]
+    [Route("{username}/{repository}/forks")]
+    public async Task<IActionResult> GetAllForks(string username, string repository)
+    {
+        HttpClient client = new HttpClient();
+        client.BaseAddress = new Uri("https://api.github.com");
 
-        if(latestCommit != repo.Head.Tip.GetHashCode())
+        /*
+        string accesstoken;
+        using (StreamReader r = new StreamReader("./Controller/token.json"))
         {
-            var repoID = _repositories.Create(new RepositoryCreateDTO(repo.Info.Path, repo.Head.RemoteName, repo.Head.Tip.GetHashCode()));
-            repo.Commits.ToList().ForEach(x => {
-            var authID = _authors.Create(new AuthorCreateDTO(x.Author.Name));
-            var comID = _commits.Create(new CommitCreateDTO(x.Author.When.DateTime));
-            _authors.AddCommit(x.Author.Name, _commits.Find(comID));
-            _repositories.AddAuthor(comID, _authors.Find(authID));
-            _repositories.AddCommit(comID, _commits.Find(comID));
-            });
-        }
-        //Check directory exists, if it does unzip and use it
-        var repoPath = fullpath + ".zip";
-         //Use repository and run database
-
-        //When it is done using the repository it is zipped
-        
-        ZipFile.CreateFromDirectory(fullpath, repoPath);
-        DeleteDirectory.DeleteFolder(fullpath);
-
-        return _repositories.Find(repo.Head.RemoteName);
+            string json = r.ReadToEnd();
+            var deserialized = (JObject)JsonConvert.DeserializeObject(json);
+            accesstoken = deserialized["access-token"].Value<string>();
+            
+        } 
+        */
+        var accesstoken = _config["accesstoken"];
+        using (StreamReader r = new StreamReader("./Controller/forks.json"))
+        {
+            string json = await r.ReadToEndAsync();
+            var forks = JArray.Parse(json);
+            //return forks.Count();
+            return Json(new {forks.Count} );
+        } 
     }
     
 }
