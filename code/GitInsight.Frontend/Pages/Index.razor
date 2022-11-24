@@ -1,11 +1,13 @@
 ﻿@page "/"
-
+@inject NavigationManager NavManager;
 <PageTitle>GitInsight</PageTitle>
 
 <label for="GitURLInput" > <h1>Enter Git URL</h1> </label>
 <br/>
 <input type="text" @bind="@_urlInput" @oninput="@(intext => { _urlInput = (string) intext.Value!;})" placeholder="{user}/{repository}" id="GitURLInput" >
-<button>Search</button>
+<form action="http://localhost:5000/AdamHadouTemsamani/assignment-01">
+    <input type="submit" value="search"/>
+</form>
 <br/>
 <br/>
 <b>Current Input: </b> <p> @_urlInput </p>
@@ -15,4 +17,9 @@
        TODO: Make "Search" button create a new repository. 
      */
     private string _urlInput = "";
+
+    private void SearchGit()
+    {
+        NavManager.NavigateTo(_urlInput);
+    }
 }
