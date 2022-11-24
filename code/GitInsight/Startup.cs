@@ -4,8 +4,8 @@ namespace GitInsight;
 
 public class Startup 
 {  
-    private readonly IConfiguration _configuration;
-    private readonly IWebHostEnvironment _environment;
+    private IConfiguration _configuration;
+    private IWebHostEnvironment _environment;
 
     public Startup(IConfiguration configuration, IWebHostEnvironment environment)
     {
@@ -31,6 +31,13 @@ public class Startup
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment enviroment)
     {
+        var builder = new ConfigurationBuilder()
+                            .SetBasePath(enviroment.ContentRootPath);
+        
+        builder.AddUserSecrets<AppSecretConfig>();
+
+        _configuration = builder.Build();
+
         if(enviroment.IsDevelopment())
         {
             app.UseSwagger();

@@ -16,19 +16,22 @@ public class RepositoryController : Controller
     
     [HttpGet]
     [Route("{username}/{repository}")]
-    public async Task<IEnumerable<(int commitFrequency, DateTime commitDate)>> PullRepository(string username, string repository)
+    public async Task<IActionResult> PullRepository(string username, string repository)
     {
         var path = CloneRepository.GetDirectory(repository);
         var repo = CloneRepository.CreateRepository(username, repository);
         
         await _gitInsight.AddRepository(repo);
         Console.WriteLine(Repository.IsValid(path));
-        return await _gitInsight.GetCommitsPerDay(repo);
+        var repoanalysis = await _gitInsight.GetCommitsPerAuthorAsync(repo);
+        var bruh = repoanalysis.First();
+        return Json( new{bruh});
+        //return Json(new{ repoanalysis});
     }
 
     [HttpGet]
     [Route("{username}/{repository}/forks")]
-    public int GetAllForks(string username, string repository)
+    public async Task<IActionResult> GetAllForks(string username, string repository)
     {
         HttpClient client = new HttpClient();
         client.BaseAddress = new Uri("https://api.github.com");
@@ -43,12 +46,13 @@ public class RepositoryController : Controller
             
         } 
         */
-
+        var accesstoken = _config["accesstoken"];
         using (StreamReader r = new StreamReader("./Controller/forks.json"))
         {
-            string json = r.ReadToEnd();
+            string json = await r.ReadToEndAsync();
             var forks = JArray.Parse(json);
-            return forks.Count();
+            //return forks.Count();
+            return Json(new {forks.Count} );
         } 
     }
     

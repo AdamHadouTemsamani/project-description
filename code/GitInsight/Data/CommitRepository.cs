@@ -80,21 +80,21 @@ public class CommitRepository : ICommitRepository
         return await _context.Commits.Select(x => new CommitDTO(x.RepositoryId, x.Id, x.Author, x.Date)).ToListAsync();
     }
 
-    public async Task<IEnumerable<(int commitCount, DateTime commitDate)>> GetCommitsPerDayAsync(string repositoryId)
+    public async Task<List<(int commitCount, DateTime commitDate)>> GetCommitsPerDayAsync(string repositoryId)
     {
         var commitList = await _context.Commits.ToListAsync();
-        return commitList.GroupBy(x => x.Date).Select(x => (x.Count(), x.Key));
+        return commitList.GroupBy(x => x.Date.Date).Select(g => (g.Count(), g.Key)).ToList();
     }
 
-    public async Task<IReadOnlyDictionary<string, IEnumerable<(int CommitFrequency, DateTime commitDate)>>> GetCommitsPerAuthorAsync(string repositoryId)
+    public async Task<IReadOnlyDictionary<string, List<(int CommitFrequency, DateTime commitDate)>>> GetCommitsPerAuthorAsync(string repositoryId)
     {
         var commits = await _context.Commits.ToListAsync();
         var authors = commits.Select(x => x.Author).Distinct();
-        var dictionary = new Dictionary<string, IEnumerable<(int CommitFrequency, DateTime commitDate)>>();
+        var dictionary = new Dictionary<string, List<(int CommitFrequency, DateTime commitDate)>>();
 
         foreach(var author in authors)
         {
-            var commit = commits.Where(x => x.Author == author).GroupBy(x => x.Date).Select(x => (x.Count(), x.Key));
+            var commit = commits.Where(x => x.Author == author).GroupBy(d => d.Date.Date).Select(g => (g.Count(), g.Key)).ToList();
             dictionary.Add(author, commit);
         }
         return dictionary;

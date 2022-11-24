@@ -4,6 +4,7 @@ public class GitInsight : IGitInsight
 {
     private readonly IRepositoryRepository _repository;
     private readonly ICommitRepository _commit;
+    private readonly DBContext? _context;
 
     public GitInsight(DBContext context)
     {
@@ -29,6 +30,7 @@ public class GitInsight : IGitInsight
         _repository = new RepostitoryRepository(_context);
     
     }
+    */
 
     public GitInsight(bool isMemoryDatabase)
     {
@@ -45,7 +47,7 @@ public class GitInsight : IGitInsight
         _repository = new RepostitoryRepository(_context);
         _commit = new CommitRepository(_context);
     }
-    */
+    
 
     public async Task AddRepository(Repository repository)
     {
@@ -78,13 +80,13 @@ public class GitInsight : IGitInsight
         }
     }
 
-    public async Task<IEnumerable<(int commitFrequency, DateTime commitDate)>> GetCommitsPerDay(Repository repository)
+    public async Task<List<(int commitFrequency, DateTime commitDate)>> GetCommitsPerDayAsync(Repository repository)
     {
         var repositoryId = repository.Commits.ToList()[0].Sha;
         return await _commit.GetCommitsPerDayAsync(repositoryId);
     }
 
-    public async Task<IReadOnlyDictionary<string, IEnumerable<(int commitFrequency, DateTime Commitdate)>>> GetCommitsPerAuthor(Repository repository)
+    public async Task<IReadOnlyDictionary<string, List<(int commitFrequency, DateTime Commitdate)>>> GetCommitsPerAuthorAsync(Repository repository)
     {
         var repositoryId = repository.Commits.ToList()[0].Sha;
         return await _commit.GetCommitsPerAuthorAsync(repositoryId);
