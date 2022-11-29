@@ -36,28 +36,24 @@ public class RepositoryController : Controller
     {
         HttpClient client = new HttpClient();
         client.BaseAddress = new Uri("https://api.github.com");
+        var token = Environment.GetEnvironmentVariable("accesstoken");
 
         
+        client.DefaultRequestHeaders.UserAgent.Add(new System.Net.Http.Headers.ProductInfoHeaderValue("AppName", "1.0"));
+        client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+        client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Token", token);
 
+        var json = await client.GetAsync($"/repos/{username}/{repository}/forks");
+        var forks = json.Content.ReadAsStringAsync().Result;
+
+        var forksCount = JArray.Parse(forks);
+        return Json(new {forksCount.Count});
+        
+        //Json(json.Content.ReadAsStringAsync().ToString());
         /*
-        string accesstoken;
-        using (StreamReader r = new StreamReader("./Controller/token.json"))
-        {
-            string json = r.ReadToEnd();
-            var deserialized = (JObject)JsonConvert.DeserializeObject(json);
-            accesstoken = deserialized["access-token"].Value<string>();
-            
-        } 
+        var forks = JArray.Parse(jsonstring!);
+        return Json(new {forks.Count});
         */
-        var accesstoken = Environment.GetEnvironmentVariable("accesstoken");
-        Console.WriteLine(accesstoken);
-        using (StreamReader r = new StreamReader("./Controller/forks.json"))
-        {
-            string json = await r.ReadToEndAsync();
-            var forks = JArray.Parse(json);
-            //return forks.Count();
-            return Json(new {forks.Count, accesstoken} );
-        } 
     }
     
 }
