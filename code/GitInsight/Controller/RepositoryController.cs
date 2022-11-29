@@ -23,7 +23,7 @@ public class RepositoryController : Controller
         var repo = CloneRepository.CreateRepository(username, repository);
         
         await _gitInsight.AddRepository(repo);
-        Console.WriteLine(Repository.IsValid(path));
+        Console.WriteLine(LibGit2Sharp.Repository.IsValid(path));
         var repoanalysis = await _gitInsight.GetCommitsPerAuthorAsync(repo);
         var bruh = repoanalysis.First();
         return Json( new{repoanalysis});

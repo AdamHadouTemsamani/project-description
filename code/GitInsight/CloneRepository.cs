@@ -2,7 +2,7 @@ namespace GitInsight;
 
 public static class CloneRepository
 {
-    public static Repository CreateRepository(string username, string repository)
+    public static LibGit2Sharp.Repository CreateRepository(string username, string repository)
     {
         var url = $"https://github.com/{username}/{repository}";
         var path = GetDirectory(repository);
@@ -10,8 +10,8 @@ public static class CloneRepository
         {
             System.IO.Directory.CreateDirectory(path);
         }
-        Repository.Clone(url.ToString(), path);
-        return new Repository(path);
+        LibGit2Sharp.Repository.Clone(url.ToString(), path);
+        return new LibGit2Sharp.Repository(path);
     }
 
     public static string GetDirectory(string repository)
