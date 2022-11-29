@@ -14,3 +14,4 @@ global using Data;
 global using System.Net.Http.Json;
 global using GitInsight;
 global using System.Text.RegularExpressions;
+global using System.Reflection;

@@ -1,4 +1,5 @@
 using Newtonsoft.Json;
+using System;
 
 namespace GitInsight;
 
@@ -25,7 +26,7 @@ public class RepositoryController : Controller
         Console.WriteLine(Repository.IsValid(path));
         var repoanalysis = await _gitInsight.GetCommitsPerAuthorAsync(repo);
         var bruh = repoanalysis.First();
-        return Json( new{bruh});
+        return Json( new{repoanalysis});
         //return Json(new{ repoanalysis});
     }
 
@@ -35,6 +36,8 @@ public class RepositoryController : Controller
     {
         HttpClient client = new HttpClient();
         client.BaseAddress = new Uri("https://api.github.com");
+
+        
 
         /*
         string accesstoken;
@@ -46,13 +49,14 @@ public class RepositoryController : Controller
             
         } 
         */
-        var accesstoken = _config["accesstoken"];
+        var accesstoken = Environment.GetEnvironmentVariable("accesstoken");
+        Console.WriteLine(accesstoken);
         using (StreamReader r = new StreamReader("./Controller/forks.json"))
         {
             string json = await r.ReadToEndAsync();
             var forks = JArray.Parse(json);
             //return forks.Count();
-            return Json(new {forks.Count} );
+            return Json(new {forks.Count, accesstoken} );
         } 
     }
     

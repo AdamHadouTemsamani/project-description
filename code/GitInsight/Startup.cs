@@ -34,8 +34,7 @@ public class Startup
         var builder = new ConfigurationBuilder()
                             .SetBasePath(enviroment.ContentRootPath);
         
-        builder.AddUserSecrets<AppSecretConfig>();
-
+        builder.AddUserSecrets<RepositoryController>().Build();
         _configuration = builder.Build();
 
         if(enviroment.IsDevelopment())
