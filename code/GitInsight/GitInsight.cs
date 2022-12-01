@@ -91,5 +91,9 @@ public class GitInsight : IGitInsight
         var repositoryId = repository.Commits.ToList()[0].Sha;
         return await _commit.GetCommitsPerAuthorAsync(repositoryId);
     }
-
+    
+    public void GetMostUsedFile( LibGit2Sharp.Repository repository)
+    {
+       
+    }
 }

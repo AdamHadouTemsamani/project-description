@@ -13,6 +13,7 @@
   - '*Commit auhor*' mode prints the name of each author and a list of the number of commits a day and the date for those commits for that author.
 - Should be able to:
   - Analyse Git repositories and store them in Database.
+- A local copy of the chosen repository should be created in a temporary folder if it does not already exist
 
 ### Development
 
@@ -25,12 +26,12 @@
 
 ### Program - non-functional
 
+- Should be written in C#.
 - Should be able to use '*libgit2sharp*'
-  - Otherwise the program will not detect any Git repository.
-- The program is console-based.
-  - Without a console, the program will not be runable.
-- Secure database.
-  - Unusable if the system is unsafe for the user.
+- Should use a database for saving repository analysis.
+- The web-application should expose a REST API
+- REST API retunrs analysis results as JSON objects
+- Must use a Blazor web-assembly as frontend
 
 ## Architecture
 
