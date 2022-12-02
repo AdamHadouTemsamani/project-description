@@ -76,7 +76,7 @@ public class GitInsight : IGitInsight
 
         foreach(var commit in commits)
         {
-            await _commit!.CreateAsync(new CommitCreateDTO(repositoryId, commit.Sha, commit.Author.Name, commit.Author.When.DateTime));
+            await _commit.CreateAsync(new CommitCreateDTO(repositoryId, commit.Sha, commit.Author.Name, commit.Author.When.DateTime));
         }
     }
 
