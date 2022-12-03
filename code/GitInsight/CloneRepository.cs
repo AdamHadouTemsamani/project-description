@@ -18,6 +18,7 @@ public static class CloneRepository
     {
         var path = Directory.GetParent(Environment.CurrentDirectory)!.Parent!.FullName!;
         string[] extract = Regex.Split(path, "bin");
-        return extract[0] + @"\code\GitInsight\Repositories\" + repository;
+        string[] paths = {extract[0], "code", "GitInsight", "Repositories", repository};
+        return Path.Combine(paths);
     }
 }

@@ -54,12 +54,6 @@ public class RepositoryController : Controller
 
         var forksCount = JArray.Parse(forks);
         return Json(new {forksCount.Count});
-        
-        //Json(json.Content.ReadAsStringAsync().ToString());
-        /*
-        var forks = JArray.Parse(jsonstring!);
-        return Json(new {forks.Count});
-        */
     }
     
 }
