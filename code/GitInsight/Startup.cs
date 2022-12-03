@@ -15,8 +15,7 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddDbContext<DBContext>(options => 
-                        options.UseSqlite("Data Source=GitInsight.db"));
+        services.AddDbContext<DBContext>(options => options.UseSqlite("Data Source=GitInsight.db"));
 
         services.AddTransient<IRepositoryRepository, RepostitoryRepository>();
         services.AddTransient<ICommitRepository, CommitRepository>();
@@ -27,12 +26,14 @@ public class Startup
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
         services.AddRouting(options => options.LowercaseUrls = true);
+        services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin()
+                                                                        .AllowAnyMethod()
+                                                                        .AllowAnyHeader()));
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment enviroment)
     {
-        var builder = new ConfigurationBuilder()
-                            .SetBasePath(enviroment.ContentRootPath);
+        var builder = new ConfigurationBuilder().SetBasePath(enviroment.ContentRootPath);
         
         builder.AddUserSecrets<RepositoryController>().Build();
         _configuration = builder.Build();
@@ -47,13 +48,12 @@ public class Startup
         app.UseHttpsRedirection();
         app.UseStaticFiles();
         app.UseRouting();
-        
+        app.UseCors("AllowAll");
         app.UseEndpoints(b => b.MapControllerRoute("default", "{username}/{repository}"));
         
         using var scope = app.ApplicationServices.CreateScope();
 
         var context = scope.ServiceProvider.GetRequiredService<DBContext>();
         context.Database.Migrate();
-
     }
 }

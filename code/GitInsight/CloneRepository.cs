@@ -9,8 +9,8 @@ public static class CloneRepository
         if(!Directory.Exists(path))
         {
             System.IO.Directory.CreateDirectory(path);
+            LibGit2Sharp.Repository.Clone(url.ToString(), path);
         }
-        LibGit2Sharp.Repository.Clone(url.ToString(), path);
         return new LibGit2Sharp.Repository(path);
     }
 
@@ -20,6 +20,4 @@ public static class CloneRepository
         string[] extract = Regex.Split(path, "bin");
         return extract[0] + @"\code\GitInsight\Repositories\" + repository;
     }
-
-    
 }

@@ -32,7 +32,7 @@ public class GitInsight : IGitInsight
     }
     */
 
-    public GitInsight(bool isMemoryDatabase)
+    public GitInsight()
     {
         var connection = new SqliteConnection("DataSource=:memory:");
         connection.Open();

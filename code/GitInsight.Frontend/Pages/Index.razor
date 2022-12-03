@@ -4,21 +4,20 @@
 
 <label for="GitURLInput" > <h1>Enter Git URL</h1> </label>
 <br/>
-<input type="text" @bind="@_urlInput" @oninput="@(intext => { _urlInput = (string) intext.Value!;})" placeholder="{user}/{repository}" id="GitURLInput" >
-<button @onclick="SearchGit">Search</button>
+<input type="text" @bind="@UrlInput" @oninput="@(intext => { UrlInput = (string) intext.Value!;})" placeholder="{user}/{repository}" id="GitURLInput" >
+<button @onclick="SearchGit"></button>
 <br/>
 <br/>
-<b>Current Input: </b> <p> @_urlInput </p>
+<b>Current Input: </b> <p> @UrlInput </p>
 
 @code {
     /* TODO: Figure out how to implement GitInsight inside GitInsight.Frontend.
        TODO: Make "Search" button create a new repository. 
      */
-    private string _urlInput = "";
+    public static string UrlInput = "";
 
     private void SearchGit()
     {
-       // string startUrl = Uri.EscapeDataString("http://localhost:5038/");
-        NavManager.NavigateTo(_urlInput);
+        NavManager.NavigateTo("FetchData");
     }
 }

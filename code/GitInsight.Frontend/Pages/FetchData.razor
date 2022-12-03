@@ -7,7 +7,7 @@
 
 <p>This component demonstrates fetching data from the server.</p>
 
-@if (forecasts == null)
+@if (repositories == null)
 {
     <p>
         <em>Loading...</em>
@@ -15,46 +15,55 @@
 }
 else
 {
-    <table class="table">
-        <thead>
+    <p>Repository: @Index.UrlInput</p>
+
+    <table>
+    @foreach (var author in repositories.authors)
+    {
         <tr>
-            <th>Date</th>
-            <th>Temp. (C)</th>
-            <th>Temp. (F)</th>
-            <th>Summary</th>
+            <td>@author.name</td>
+            <td>
+                <table>
+                    @foreach (var commit in author.commits)
+                    {
+                        <tr>
+                            <td>@commit.Item1</td>
+                            <td>@commit.Item2.ToShortDateString()</td>
+                        </tr>
+                    }
+                </table>
+            </td>
         </tr>
-        </thead>
-        <tbody>
-        @foreach (var forecast in forecasts)
-        {
-            <tr>
-                <td>@forecast.Date.ToShortDateString()</td>
-                <td>@forecast.TemperatureC</td>
-                <td>@forecast.TemperatureF</td>
-                <td>@forecast.Summary</td>
-            </tr>
-        }
-        </tbody>
+    }
     </table>
 }
 
 @code {
-    private WeatherForecast[]? forecasts;
+    private Repository? repositories;
 
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
+        /*HttpResponseMessage res = await Http.GetAsync(new Uri("https://localhost:5001/" + Index.UrlInput));
+        if(res.IsSuccessStatusCode){
+            repositories = await res.Content.ReadFromJsonAsync<Repository>();
+        }*/
+        repositories = await Http.GetFromJsonAsync<Repository>("https://localhost:5001/" + Index.UrlInput);
     }
 
-    public class WeatherForecast
+    public class Repository
     {
-        public DateTime Date { get; set; }
+        public IList<Author>? authors { get; set; }
 
-        public int TemperatureC { get; set; }
+        public class Author
+        {
+            public string? name { get; set; }
+            public List<commit>? commits { get; set; }
+        }
 
-        public string? Summary { get; set; }
-
-        public int TemperatureF => 32 + (int) (TemperatureC / 0.5556);
+        public class commit
+        {
+            public int? Item1 { get; set; }
+            public DateTime? Item2 { get; set; }
+        }
     }
-
 }

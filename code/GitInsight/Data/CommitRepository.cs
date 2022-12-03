@@ -86,11 +86,11 @@ public class CommitRepository : ICommitRepository
         return commitList.GroupBy(x => x.Date.Date).Select(g => (g.Count(), g.Key)).ToList();
     }
 
-    public async Task<IReadOnlyDictionary<string, List<(int CommitFrequency, DateTime commitDate)>>> GetCommitsPerAuthorAsync(string repositoryId)
+    public async Task<IReadOnlyDictionary<string, List<(int commitFrequency, DateTime commitDate)>>> GetCommitsPerAuthorAsync(string repositoryId)
     {
         var commits = await _context.Commits.ToListAsync();
         var authors = commits.Select(x => x.Author).Distinct();
-        var dictionary = new Dictionary<string, List<(int CommitFrequency, DateTime commitDate)>>();
+        var dictionary = new Dictionary<string, List<(int commitFrequency, DateTime commitDate)>>();
 
         foreach(var author in authors)
         {

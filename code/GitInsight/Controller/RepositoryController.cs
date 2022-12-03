@@ -1,8 +1,13 @@
 using Newtonsoft.Json;
 using System;
+using System.Text.Json;
 
 namespace GitInsight;
 
+public class author {
+    public string? name { get; set; }
+    public List<(int commitFrequency, DateTime commitDate)>? commits { get; set; }
+}
 
 [ApiController]
 public class RepositoryController : Controller
@@ -23,11 +28,12 @@ public class RepositoryController : Controller
         var repo = CloneRepository.CreateRepository(username, repository);
         
         await _gitInsight.AddRepository(repo);
-        Console.WriteLine(LibGit2Sharp.Repository.IsValid(path));
         var repoanalysis = await _gitInsight.GetCommitsPerAuthorAsync(repo);
-        var bruh = repoanalysis.First();
-        return Json( new{repoanalysis});
-        //return Json(new{ repoanalysis});
+        var authors = new List<author>();
+        foreach(var auth in repoanalysis){
+            authors.Add(new author{name = auth.Key, commits = auth.Value});
+        }
+        return Json(new{authors}, new JsonSerializerOptions{IncludeFields = true});
     }
 
     [HttpGet]
