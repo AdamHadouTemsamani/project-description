@@ -1,23 +1,27 @@
 ﻿@page "/"
+@inject HttpClient Http
 @inject NavigationManager NavManager;
 <PageTitle>GitInsight</PageTitle>
 
 <label for="GitURLInput" > <h1>Enter Git URL</h1> </label>
 <br/>
 <input type="text" @bind="@UrlInput" @oninput="@(intext => { UrlInput = (string) intext.Value!;})" placeholder="{user}/{repository}" id="GitURLInput" >
-<button @onclick="SearchGit"></button>
+<button @onclick="SearchGit">Search</button>
 <br/>
 <br/>
 <b>Current Input: </b> <p> @UrlInput </p>
 
+@if(currRepo != null)
+{
+    <p> Current chosen Repository: @currRepo</p>
+}
+
 @code {
-    /* TODO: Figure out how to implement GitInsight inside GitInsight.Frontend.
-       TODO: Make "Search" button create a new repository. 
-     */
+    public static string currRepo;
     public static string UrlInput = "";
 
-    private void SearchGit()
+    public void SearchGit()
     {
-        NavManager.NavigateTo("FetchData");
+        currRepo = UrlInput;
     }
 }

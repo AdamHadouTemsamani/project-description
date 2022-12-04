@@ -32,7 +32,7 @@ public class GitInsight : IGitInsight
     }
     */
 
-    public GitInsight(bool isMemoryDatabase)
+    public GitInsight()
     {
         var connection = new SqliteConnection("DataSource=:memory:");
         connection.Open();
@@ -49,7 +49,7 @@ public class GitInsight : IGitInsight
     }
     
 
-    public async Task AddRepository(Repository repository)
+    public async Task AddRepository(LibGit2Sharp.Repository repository)
     {
         var repositoryId = repository.Commits.ToList()[0].Sha;
         var LatestCommit = repository.Head.Tip.GetHashCode();
@@ -69,27 +69,31 @@ public class GitInsight : IGitInsight
         }
     }
     
-    public async Task AddCommits(Repository repository)
+    public async Task AddCommits(LibGit2Sharp.Repository repository)
     {
         var repositoryId = repository.Commits.ToList()[0].Sha;
         var commits = repository.Commits;
 
         foreach(var commit in commits)
         {
-            await _commit!.CreateAsync(new CommitCreateDTO(repositoryId, commit.Sha, commit.Author.Name, commit.Author.When.DateTime));
+            await _commit.CreateAsync(new CommitCreateDTO(repositoryId, commit.Sha, commit.Author.Name, commit.Author.When.DateTime));
         }
     }
 
-    public async Task<List<(int commitFrequency, DateTime commitDate)>> GetCommitsPerDayAsync(Repository repository)
+    public async Task<List<(int commitFrequency, DateTime commitDate)>> GetCommitsPerDayAsync(LibGit2Sharp.Repository repository)
     {
         var repositoryId = repository.Commits.ToList()[0].Sha;
         return await _commit.GetCommitsPerDayAsync(repositoryId);
     }
 
-    public async Task<IReadOnlyDictionary<string, List<(int commitFrequency, DateTime Commitdate)>>> GetCommitsPerAuthorAsync(Repository repository)
+    public async Task<IReadOnlyDictionary<string, List<(int commitFrequency, DateTime Commitdate)>>> GetCommitsPerAuthorAsync(LibGit2Sharp.Repository repository)
     {
         var repositoryId = repository.Commits.ToList()[0].Sha;
         return await _commit.GetCommitsPerAuthorAsync(repositoryId);
     }
-
+    
+    public void GetMostUsedFile( LibGit2Sharp.Repository repository)
+    {
+       
+    }
 }
