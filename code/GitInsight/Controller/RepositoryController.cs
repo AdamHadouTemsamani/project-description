@@ -19,23 +19,42 @@ public class RepositoryController : Controller
         _gitInsight = gitInsight;
         _config = config;
     }
-    
-    [HttpGet]
-    [Route("{username}/{repository}")]
-    public async Task<IActionResult> PullRepository(string username, string repository)
+
+    private async Task<LibGit2Sharp.Repository> PullRepository(string username, string repository)
     {
         var path = CloneRepository.GetDirectory(repository);
         var repo = CloneRepository.CreateRepository(username, repository);
-        
+
         await _gitInsight.AddRepository(repo);
-        var repoanalysis = await _gitInsight.GetCommitsPerAuthorAsync(repo);
-        var authors = new List<author>();
-        foreach(var auth in repoanalysis){
-            authors.Add(new author{name = auth.Key, commits = auth.Value});
-        }
-        return Json(new{authors}, new JsonSerializerOptions{IncludeFields = true});
+
+        return repo;
     }
 
+    [HttpGet]
+    [Route("{username}/{repository}/commitstotal")]
+    public async Task<IActionResult> PullRepositoryTotal(string username, string repository)
+    {
+        var repo = PullRepository(username,repository).Result;
+        var comday = await _gitInsight.GetCommitsPerDayAsync(repo);
+
+        return Json(new{comday}, new JsonSerializerOptions{IncludeFields = true});
+    }
+    
+    [HttpGet]
+    [Route("{username}/{repository}/commitsauthor")]
+    public async Task<IActionResult> PullRepositoryAuthors(string username, string repository)
+    {
+        var repo = PullRepository(username,repository).Result;
+
+        var repoanalysis1 = await _gitInsight.GetCommitsPerAuthorAsync(repo);
+        var authors = new List<author>();
+        foreach(var auth in repoanalysis1){
+            authors.Add(new author{name = auth.Key, commits = auth.Value});
+        }
+
+        return Json(new{authors}, new JsonSerializerOptions{IncludeFields = true});
+    }
+    
     [HttpGet]
     [Route("{username}/{repository}/forks")]
     public async Task<IActionResult> GetAllForks(string username, string repository)
@@ -43,7 +62,6 @@ public class RepositoryController : Controller
         HttpClient client = new HttpClient();
         client.BaseAddress = new Uri("https://api.github.com");
         var token = Environment.GetEnvironmentVariable("accesstoken");
-
         
         client.DefaultRequestHeaders.UserAgent.Add(new System.Net.Http.Headers.ProductInfoHeaderValue("AppName", "1.0"));
         client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
@@ -51,9 +69,14 @@ public class RepositoryController : Controller
 
         var json = await client.GetAsync($"/repos/{username}/{repository}/forks");
         var forks = json.Content.ReadAsStringAsync().Result;
+        var forkList = new List<string>();
 
-        var forksCount = JArray.Parse(forks);
-        return Json(new {forksCount.Count});
+        foreach(var fork in (dynamic) JArray.Parse(forks))
+        {
+            forkList.Add((string) fork.full_name);
+        }
+
+        return Json(new{forkList});
+        //return new ContentResult { Content = forks, ContentType = "application/json" };
     }
-    
 }

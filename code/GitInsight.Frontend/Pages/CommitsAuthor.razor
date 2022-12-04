@@ -1,0 +1,50 @@
+﻿@page "/CommitsAuthor"
+@inject HttpClient Http
+<PageTitle>Commits per Author</PageTitle>
+
+@if (repo == null)
+{
+    <p> <em>Loading...</em> </p>
+}
+else
+{
+    @foreach (var author in repo.authors!)
+    {
+        <p>@author.name:</p>
+        <RadzenChart style="width: 600px; height: 350px;">
+            <RadzenColumnSeries Data="@author.commits" CategoryProperty="Item2" ValueProperty="Item1" StrokeWidth="5" />
+            <RadzenLegend Visible="false" />
+            <RadzenColumnOptions Margin="50" Width="10" />
+            <RadzenValueAxis Min="0" Max="10" Step="1">
+                <RadzenGridLines Visible="true" />
+            </RadzenValueAxis>
+            <RadzenCategoryAxis Padding="35" />
+        </RadzenChart>
+    }
+}
+
+@code {
+    private AuthorCommits? repo;
+
+    protected override async Task OnInitializedAsync()
+    {
+        repo = await Http.GetFromJsonAsync<AuthorCommits>("https://localhost:5001/" + Index.currRepo + "/commitsauthor");
+    }
+
+    private class AuthorCommits
+    {
+        public List<Author>? authors { get; set; }
+
+        public class Author
+        {
+            public string? name { get; set; }
+            public List<commit>? commits { get; set; }
+
+            public class commit
+            {
+                public int? Item1 { get; set; }
+                public DateTime Item2 { get; set; }
+            }
+        }
+    }
+}

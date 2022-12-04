@@ -95,8 +95,9 @@ public class CommitRepository : ICommitRepository
         foreach(var author in authors)
         {
             var commit = commits.Where(x => x.Author == author).GroupBy(d => d.Date.Date).Select(g => (g.Count(), g.Key)).ToList();
-            dictionary.Add(author, new List<(int, DateTime)> {(3,DateTime.MaxValue)});
+            dictionary.Add(author, commit);
         }
+        
         return dictionary;
     }
 }

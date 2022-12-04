@@ -11,7 +11,22 @@
     <nav class="flex-column">
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
+                Choose Repo
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="CommitsTotal" Match="NavLinkMatch.All">
+                Total Commits
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="CommitsAuthor" Match="NavLinkMatch.All">
+                Commits per Author
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="CommitsForks" Match="NavLinkMatch.All">
+                Repo Forks
             </NavLink>
         </div>
     </nav>
@@ -26,5 +41,4 @@
     {
         collapseNavMenu = !collapseNavMenu;
     }
-
 }
