@@ -35,9 +35,9 @@ public class RepositoryController : Controller
     public async Task<IActionResult> PullRepositoryTotal(string username, string repository)
     {
         var repo = PullRepository(username,repository).Result;
-        var comday = await _gitInsight.GetCommitsPerDayAsync(repo);
+        var commitsday = await _gitInsight.GetCommitsPerDayAsync(repo);
 
-        return Json(new{comday}, new JsonSerializerOptions{IncludeFields = true});
+        return Json(new{commitsday}, new JsonSerializerOptions{IncludeFields = true});
     }
     
     [HttpGet]

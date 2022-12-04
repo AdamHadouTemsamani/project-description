@@ -2,18 +2,18 @@
 @inject HttpClient Http
 <PageTitle>Repository Forks</PageTitle>
 
-@if (repo == null)
+@if (_repo == null)
 {
     <p> <em>Loading...</em> </p>
 }
 else
 {
     <p>Forks List:</p>
-    <RadzenDataGrid Data="@repo.forklist" style="width:400px;">
+    <RadzenDataGrid Data="@_repo.forklist" style="width:400px;">
         <Columns>
             <RadzenDataGridColumn Width="50px" TItem="string" Title="#" TextAlign="TextAlign.Center">
                 <Template Context="data">
-                    @(repo.forklist!.IndexOf(data) + 1)
+                    @(_repo.forklist!.IndexOf(data) + 1)
                 </Template>
             </RadzenDataGridColumn>
             <RadzenDataGridColumn TItem="string" Property="string" Title="Repository"/>
@@ -22,11 +22,11 @@ else
 }
 
 @code {
-    private ForksList? repo;
+    private ForksList? _repo;
 
     protected override async Task OnInitializedAsync()
     {
-        repo = await Http.GetFromJsonAsync<ForksList>("https://localhost:5001/" + Index.currRepo + "/forks");
+        _repo = await Http.GetFromJsonAsync<ForksList>("https://localhost:5001/" + Index.currRepo + "/forks");
     }
 
     private class ForksList

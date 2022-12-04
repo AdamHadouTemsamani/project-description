@@ -2,7 +2,7 @@
 @inject HttpClient Http
 <PageTitle>Total Commits</PageTitle>
 
-@if (repo == null)
+@if (_repo == null)
 {
     <p> <em>Loading...</em> </p>
 }
@@ -10,7 +10,7 @@ else
 {
     <p>Total Commits per Day:</p>
     <RadzenChart style="width: 600px; height: 350px;">
-        <RadzenColumnSeries Data="@repo.comday" CategoryProperty="Item2" ValueProperty="Item1" StrokeWidth="5" />
+        <RadzenColumnSeries Data="@_repo.Commitsday" CategoryProperty="Item2" ValueProperty="Item1" StrokeWidth="5" />
         <RadzenLegend Visible="false" />
         <RadzenColumnOptions Margin="50" Width="10" />
         <RadzenValueAxis Min="0" Max="15" Step="1">
@@ -21,16 +21,16 @@ else
 }
 
 @code {
-    private TotalCommits? repo;
+    private TotalCommits? _repo;
 
     protected override async Task OnInitializedAsync()
     {
-        repo = await Http.GetFromJsonAsync<TotalCommits>("https://localhost:5001/" + Index.currRepo + "/commitstotal");
+        _repo = await Http.GetFromJsonAsync<TotalCommits>("https://localhost:5001/" + Index.currRepo + "/commitstotal");
     }
 
     private class TotalCommits
     {
-        public List<commit>? comday { get; set; }
+        public List<commit>? Commitsday { get; set; }
 
         public class commit
         {

@@ -2,13 +2,13 @@
 @inject HttpClient Http
 <PageTitle>Commits per Author</PageTitle>
 
-@if (repo == null)
+@if (_repo == null)
 {
     <p> <em>Loading...</em> </p>
 }
 else
 {
-    @foreach (var author in repo.authors!)
+    @foreach (var author in _repo.Authors!)
     {
         <p>@author.name:</p>
         <RadzenChart style="width: 600px; height: 350px;">
@@ -24,16 +24,16 @@ else
 }
 
 @code {
-    private AuthorCommits? repo;
+    private AuthorCommits? _repo;
 
     protected override async Task OnInitializedAsync()
     {
-        repo = await Http.GetFromJsonAsync<AuthorCommits>("https://localhost:5001/" + Index.currRepo + "/commitsauthor");
+        _repo = await Http.GetFromJsonAsync<AuthorCommits>("https://localhost:5001/" + Index.currRepo + "/commitsauthor");
     }
 
     private class AuthorCommits
     {
-        public List<Author>? authors { get; set; }
+        public List<Author>? Authors { get; set; }
 
         public class Author
         {
